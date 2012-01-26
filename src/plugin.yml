@@ -6,6 +6,6 @@ author: ryanclancy000, originally by bekvon.
 commands:
   plugman:
     description: Manage Plugins Status.
-    usage: /plugman [list]
+    usage: /plugman [list|vlist|help]
            /plugman [load|reload|disable|enable|info|usage] [PluginName]
            /plugman [describe] [CommandName] [PluginName]
