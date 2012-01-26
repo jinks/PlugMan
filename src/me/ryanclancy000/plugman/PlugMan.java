@@ -160,7 +160,7 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void listPluginsByPage(CommandSender sender, int page, boolean appendVersion) {
-        if (!(sender.hasPermission("plugman.admin")) && !(sender.hasPermission("plugman.list"))) {
+        if (!(sender.hasPermission("plugman.list"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -205,7 +205,7 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void listPlugins(CommandSender sender, boolean appendVersion) {
-        if (!(sender.hasPermission("plugman.admin")) && !(sender.hasPermission("plugman.list"))) {
+        if (!(sender.hasPermission("plugman.list"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -250,7 +250,7 @@ public class PlugMan extends JavaPlugin {
         String descript = targetPlugin.getDescription().getDescription();
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.admin")) && !(sender.hasPermission("plugman.list"))) {
+        if (!(sender.hasPermission("plugman.info"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -299,6 +299,12 @@ public class PlugMan extends JavaPlugin {
     }
     
     private void helpList(CommandSender sender) {
+        
+        if (!(sender.hasPermission("plugman.help"))) {
+            sender.sendMessage(red + "You don't have permission to do this...");
+            return;
+        }
+        
         sender.sendMessage(yellow + "PlugMan " + green + "Help:");
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
         sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with version.");
@@ -316,7 +322,7 @@ public class PlugMan extends JavaPlugin {
         ArrayList<String> out = new ArrayList<String>();
         boolean error = false;
 
-        if (!(sender.hasPermission("plugman.admin"))) {
+        if (!(sender.hasPermission("plugman.disable"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -348,7 +354,7 @@ public class PlugMan extends JavaPlugin {
         ArrayList<String> out = new ArrayList<String>();
         boolean error = false;
 
-        if (!(sender.hasPermission("plugman.admin"))) {
+        if (!(sender.hasPermission("plugman.enable"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -375,7 +381,7 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void reloadPlugin(CommandSender sender, Plugin targetPlugin) {
-        if (!(sender.hasPermission("plugman.admin"))) {
+        if (!(sender.hasPermission("plugman.reload"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -386,7 +392,7 @@ public class PlugMan extends JavaPlugin {
     private void loadPlugin(CommandSender sender, String pluginName) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.admin"))) {
+        if (!(sender.hasPermission("plugman.load"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -430,7 +436,7 @@ public class PlugMan extends JavaPlugin {
     private void listCommands(CommandSender sender, Plugin targetPlugin) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.admin")) && !(sender.hasPermission("plugman.describe"))) {
+        if (!(sender.hasPermission("plugman.usage"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }
@@ -479,7 +485,7 @@ public class PlugMan extends JavaPlugin {
     private void describeCommand(CommandSender sender, Plugin targetPlugin, String commandName) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.admin")) && !(sender.hasPermission("plugman.describe"))) {
+        if (!(sender.hasPermission("plugman.describe"))) {
             sender.sendMessage(red + "You don't have permission to do this...");
             return;
         }

@@ -1,6 +1,6 @@
 name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
-version: 1.5.2
+version: 1.5.3
 description: Plugin Manager Mod for Bukkit
 author: ryanclancy000, originally by bekvon.
 commands:
@@ -9,3 +9,55 @@ commands:
     usage: /plugman [list]
            /plugman [load|reload|disable|enable|info|usage] [PluginName]
            /plugman [describe] [CommandName] [PluginName]
+permissions:
+    plugman.admin:
+        description: Gives access to all PlugMan commands.
+        children:
+            plugman.help: true
+            plugman.list: true
+            plugman.load: true
+            plugman.reload: true
+            plugman.enable: true
+            plugman.disable: true
+            plugman.info: true
+            plugman.usage: true
+            plugman.describe: true
+    plugman.player:
+        description: Gives access to all info commands.
+        children:
+            plugman.help: true
+            plugman.list: true
+            plugman.load: false
+            plugman.reload: false
+            plugman.enable: false
+            plugman.disable: false
+            plugman.info: true
+            plugman.usage: true
+            plugman.describe: true
+    plugman.help:
+        description: Allows use of the help command.
+        default: true
+    plugman.list:
+        description: Allows use of the list and vlist commands.
+        default: true
+    plugman.load:
+        description: Allows use of the load command.
+        default: op
+    plugman.reload:
+        description: Allows use of the reload command.
+        default: op
+    plugman.enable:
+        description: Allows use of the enable command.
+        default: op
+    plugman.disable:
+        description: Allows use of the disable command.
+        default: op
+    plugman.info:
+        description: Allows use of the info command.
+        default: true
+    plugman.usage:
+        description: Allows use of the usage command.
+        default: true
+    plugman.describe:
+        description: Allows use of the describe command.
+        default: true      
