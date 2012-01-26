@@ -4,18 +4,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
+    public PluginDescriptionFile PDF;
     Server server;
     PluginManager pm;
-    CommandSender sender;
     ChatColor yellow = ChatColor.YELLOW;
     ChatColor green = ChatColor.GREEN;
-    ChatColor red = ChatColor.RED;
+    ChatColor white = ChatColor.WHITE;
 
     @Override
     public void onDisable() {
@@ -25,6 +26,7 @@ public class PlugMan extends JavaPlugin {
     public void onEnable() {
         server = this.getServer();
         pm = this.getServer().getPluginManager();
+        PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
     }
 
@@ -41,78 +43,120 @@ public class PlugMan extends JavaPlugin {
     private boolean doCommand(CommandSender sender, String args[]) {
 
         if (args.length == 0) {
+            cHandler.thisInfo(sender);
             return true;
         }
-        
+
         // Help Command
-        
+
         if ("help".equalsIgnoreCase(args[0])) {
-            
+
             if (!sender.hasPermission("plugman.help")) {
-                noPerms();
+                noPerms(sender);
                 return true;
             }
-            
-            cHandler.helpList();
+
+            cHandler.helpList(sender);
             return true;
         }
-        
+
         // Load Command
 
         if ("load".equalsIgnoreCase(args[0])) {
-            
+
             if (!sender.hasPermission("plugman.load")) {
-                noPerms();
+                noPerms(sender);
                 return true;
             }
-            
+
             cHandler.loadPlugin();
             return true;
         }
-        
+
         // Reload Command
 
         if ("reload".equalsIgnoreCase(args[0])) {
-            
+
             if (!sender.hasPermission("plugman.reload")) {
-                noPerms();
+                noPerms(sender);
                 return true;
             }
-            
+
             cHandler.reloadPlugin();
             return true;
         }
 
+        // Enable Command
+
         if ("enable".equalsIgnoreCase(args[0])) {
-            cHandler.enablePlugin();
+
+            if (!sender.hasPermission("plugman.enable")) {
+                noPerms(sender);
+                return true;
+            }
+
+            cHandler.enablePlugin(sender, args);
             return true;
         }
 
+        // Disable Command
+
         if ("disable".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.disable")) {
+                noPerms(sender);
+                return true;
+            }
+
             cHandler.disablePlugin();
             return true;
         }
 
+        // Info Command
+
         if ("info".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.info")) {
+                noPerms(sender);
+                return true;
+            }
+
             cHandler.pluginInfo();
             return true;
         }
 
+        // Usage Command
+
         if ("usage".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.usage")) {
+                noPerms(sender);
+                return true;
+            }
+
             cHandler.commandUsage();
             return true;
         }
 
+        // Describe Command
+
         if ("describe".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.describe")) {
+                noPerms(sender);
+                return true;
+            }
+
             cHandler.describeCommand();
             return true;
         }
-        
+
+        cHandler.thisInfo(sender);
         return false;
 
     }
-    
-    public void noPerms() {
-        sender.sendMessage(red + "You do not have permission for that command...");
+
+    public void noPerms(CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "You do not have permission for that command...");
     }
 }

@@ -2,12 +2,10 @@ name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
 version: 2.0
 description: Plugin Manager Mod for Bukkit
-author: ryanclancy000, originally by bekvon.
+author: ryanclancy000
 commands:
   plugman:
     description: Manage Plugins Status.
     usage: /plugman [list|vlist|help]
            /plugman [load|reload|disable|enable|info|usage] [PluginName]
            /plugman [describe] [CommandName] [PluginName]
-           
-#test 123
