@@ -39,7 +39,7 @@ public class PlugMan extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (this.isEnabled()) {
-            if (cmd.getName().equals("plugman")) {
+            if (cmd.getName().equalsIgnoreCase("plugman")) {
                 return doCommand(sender, args);
             }
         }
@@ -58,11 +58,11 @@ public class PlugMan extends JavaPlugin {
         
         String command = args[0];
 
-        if (command.equals("list") || command.equals("vlist") && !error) {
+        if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("vlist") && !error) {
             if (args.length >= 2) {
                 try {
                     int page = Integer.parseInt(args[1]);
-                    if (command.equals("vlist")) {
+                    if (command.equalsIgnoreCase("vlist")) {
                         listPluginsByPage(sender, page, true);
                     } else {
                         listPluginsByPage(sender, page, false);
@@ -71,7 +71,7 @@ public class PlugMan extends JavaPlugin {
                 }
                 return true;
             }
-            if (command.equals("vlist")) {
+            if (command.equalsIgnoreCase("vlist")) {
                 listPlugins(sender, true);
             } else {
                 listPlugins(sender, false);
@@ -91,7 +91,7 @@ public class PlugMan extends JavaPlugin {
 
         int pNameStart = 1;
 
-        if (args[0].equals("describe") && !error) {
+        if (args[0].equalsIgnoreCase("describe") && !error) {
             pNameStart = 2;
         }
 
@@ -109,14 +109,14 @@ public class PlugMan extends JavaPlugin {
             pluginName = pname.toString();
         }
 
-        if (command.equals("load") && !error) {
+        if (command.equalsIgnoreCase("load") && !error) {
             loadPlugin(sender, pluginName);
             return true;
         }
 
         Plugin targetPlugin = null;
         if (!error) {
-            targetPlugin = serverPM.getPlugin(pluginName);
+            targetPlugin = getPlugin(pluginName);
         }
         
         if (targetPlugin == null && !error) {
@@ -129,22 +129,22 @@ public class PlugMan extends JavaPlugin {
             }
         }
 
-        if (command.equals("reload") && !error) {
+        if (command.equalsIgnoreCase("reload") && !error) {
             reloadPlugin(sender, targetPlugin);
             return true;
-        } else if (command.equals("disable") && !error) {
+        } else if (command.equalsIgnoreCase("disable") && !error) {
             disablePlugin(sender, targetPlugin);
             return true;
-        } else if (command.equals("enable") && !error) {
+        } else if (command.equalsIgnoreCase("enable") && !error) {
             enablePlugin(sender, targetPlugin);
             return true;
-        } else if (command.equals("info") && !error) {
+        } else if (command.equalsIgnoreCase("info") && !error) {
             getPluginInfo(sender, targetPlugin);
             return true;
-        } else if (command.equals("usage") && !error) {
+        } else if (command.equalsIgnoreCase("usage") && !error) {
             listCommands(sender, targetPlugin);
             return true;
-        } else if (command.equals("describe") && !error) {
+        } else if (command.equalsIgnoreCase("describe") && !error) {
             describeCommand(sender, targetPlugin, args[1]);
             return true;
         }
@@ -233,6 +233,15 @@ public class PlugMan extends JavaPlugin {
             sender.sendMessage(ChatTools.stripColor(pluginList.toString()));
         }
     }
+    
+    public Plugin getPlugin(String parm) {
+        for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
+            if (plugin.getDescription().getName().equalsIgnoreCase(parm)) {
+                return plugin;
+            }
+        }
+        return null;
+    }
 
     private void getPluginInfo(CommandSender sender, Plugin targetPlugin) {
         String pluginName = targetPlugin.getDescription().getName();
@@ -251,7 +260,7 @@ public class PlugMan extends JavaPlugin {
             out.add(yellow + "[" + targetPlugin.getDescription().getName() + "] Status: " + red + "Disabled");
         }
 
-        if (version == null || version.equals("")) {
+        if (version == null || version.equalsIgnoreCase("")) {
             out.add(red + "" + pluginName + " has a invalid version field.");
         } else {
             out.add("Version: "+ green + targetPlugin.getDescription().getVersion());
@@ -274,7 +283,7 @@ public class PlugMan extends JavaPlugin {
         }
 
 
-        if (descript == null || descript.equals("")) {
+        if (descript == null || descript.equalsIgnoreCase("")) {
             out.add(red + "" + pluginName + " has a invalid description field.");
         } else {
             out.add(yellow + "Description: " + white + targetPlugin.getDescription().getDescription());
