@@ -52,9 +52,10 @@ public class PlugMan extends JavaPlugin {
         ArrayList<String> out = new ArrayList<String>();
 
         if (args.length == 0) {
-            return false;
+            helpList(sender);
+            return true;
         }
-
+        
         String command = args[0];
 
         if (command.equals("list") || command.equals("vlist") && !error) {
@@ -79,8 +80,13 @@ public class PlugMan extends JavaPlugin {
         }
 
         if (args.length < 2 && !error) {
+            if (args[0].equalsIgnoreCase("help")) {
+                helpList(sender);
+                return true;
+            } else {
             out.add(red + "You must specify a Plugin Name!");
             error = true;
+            }
         }
 
         int pNameStart = 1;
@@ -112,9 +118,15 @@ public class PlugMan extends JavaPlugin {
         if (!error) {
             targetPlugin = serverPM.getPlugin(pluginName);
         }
+        
         if (targetPlugin == null && !error) {
+            if ("help".equalsIgnoreCase(args[0])) {
+                helpList(sender);
+                return true;
+            } else {
             out.add(red + "Invalid plugin, check name and try again.");
             error = true;
+            }
         }
 
         if (command.equals("reload") && !error) {
@@ -143,7 +155,7 @@ public class PlugMan extends JavaPlugin {
             } else {
                 sender.sendMessage(ChatTools.stripColor(s));
             }
-        }
+        }        
         return false;
     }
 
@@ -275,6 +287,19 @@ public class PlugMan extends JavaPlugin {
             }
         }
 
+    }
+    
+    private void helpList(CommandSender sender) {
+        sender.sendMessage(yellow + "PlugMan " + green + "Help:");
+        sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
+        sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with version.");
+        sender.sendMessage(yellow + "/plugman " + green + "load (plugin) - " + yellow + "Loads a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "reload (plugin) - " + yellow + "Reloads a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "enable (plugin) - " + yellow + "Enables a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "disable (plugin) - " + yellow + "Disables a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "info (plugin) - " + yellow + "Shows version and other plugin info.");
+        sender.sendMessage(yellow + "/plugman " + green + "usage (plugin) - " + yellow + "Lists commands registered by a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "describe (command) (plugin) - " + yellow + "Describe a command a plugin has registered.");
     }
 
     private void disablePlugin(CommandSender sender, Plugin targetPlugin) {
