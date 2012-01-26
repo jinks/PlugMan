@@ -6,8 +6,8 @@ author: ryanclancy000
 commands:
   plugman:
     description: Manage Plugins Status.
-    usage: /plugman [list|help]
-           /plugman [load|reload|disable|enable|info] [PluginName]
+    usage: /plugman [help|list]
+           /plugman [info|load|reload|enable|disable] [PluginName]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.

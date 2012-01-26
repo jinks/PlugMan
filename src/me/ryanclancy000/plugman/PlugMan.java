@@ -1,6 +1,5 @@
 package me.ryanclancy000.plugman;
 
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
