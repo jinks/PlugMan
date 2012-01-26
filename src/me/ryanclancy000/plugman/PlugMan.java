@@ -44,17 +44,41 @@ public class PlugMan extends JavaPlugin {
             return true;
         }
         
+        // Help Command
+        
         if ("help".equalsIgnoreCase(args[0])) {
+            
+            if (!sender.hasPermission("plugman.help")) {
+                noPerms();
+                return true;
+            }
+            
             cHandler.helpList();
             return true;
         }
+        
+        // Load Command
 
         if ("load".equalsIgnoreCase(args[0])) {
+            
+            if (!sender.hasPermission("plugman.load")) {
+                noPerms();
+                return true;
+            }
+            
             cHandler.loadPlugin();
             return true;
         }
+        
+        // Reload Command
 
         if ("reload".equalsIgnoreCase(args[0])) {
+            
+            if (!sender.hasPermission("plugman.reload")) {
+                noPerms();
+                return true;
+            }
+            
             cHandler.reloadPlugin();
             return true;
         }
@@ -86,5 +110,9 @@ public class PlugMan extends JavaPlugin {
         
         return false;
 
+    }
+    
+    public void noPerms() {
+        sender.sendMessage(red + "You do not have permission for that command...");
     }
 }
