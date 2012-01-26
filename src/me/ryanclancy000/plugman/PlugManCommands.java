@@ -11,4 +11,32 @@ public class PlugManCommands {
     public void helpList() {
     }
     
+    public void loadPlugin() {
+        
+    }
+    
+    public void reloadPlugin() {
+        
+    }
+    
+    public void enablePlugin() {
+        
+    }
+    
+    public void disablePlugin() {
+        
+    }
+    
+    public void pluginInfo() {
+        
+    }
+    
+    public void commandUsage() {
+        
+    }
+    
+    public void describeCommand() {
+        
+    }
+    
 }
