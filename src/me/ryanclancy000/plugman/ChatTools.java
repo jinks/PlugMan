@@ -1,4 +1,4 @@
-package com.bekvon.bukkit.plugman;
+package me.ryanclancy000.plugman;
 
 import java.util.ArrayList;
 import java.util.List;

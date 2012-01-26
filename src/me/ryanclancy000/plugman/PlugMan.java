@@ -1,4 +1,4 @@
-package com.bekvon.bukkit.plugman;
+package me.ryanclancy000.plugman;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     Server mcserver;
-    Plugin permPlug;
     PluginManager serverPM;
     ChatColor red = ChatColor.RED;
     ChatColor green = ChatColor.GREEN;
@@ -29,7 +28,6 @@ public class PlugMan extends JavaPlugin {
     public void onDisable() {
         mcserver = null;
         serverPM = null;
-        permPlug = null;
     }
 
     public void onEnable() {
