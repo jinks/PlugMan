@@ -1,7 +1,9 @@
 package me.ryanclancy000.plugman;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 public class PlugManCommands {
 
@@ -14,6 +16,15 @@ public class PlugManCommands {
     ChatColor green = ChatColor.GREEN;
     ChatColor red = ChatColor.RED;
     ChatColor white = ChatColor.WHITE;
+
+    public Plugin getPlugin(String parm) {
+        for (Plugin plugin : p.getServer().getPluginManager().getPlugins()) {
+            if (plugin.getDescription().getName().equalsIgnoreCase(parm)) {
+                return plugin;
+            }
+        }
+        return null;
+    }
 
     public void thisInfo(CommandSender sender) {
         sender.sendMessage(yellow + p.PDF.getName() + green + " v" + p.PDF.getVersion() + white + " by " + green + p.PDF.getAuthors());
@@ -35,13 +46,56 @@ public class PlugManCommands {
     public void loadPlugin() {
     }
 
-    public void reloadPlugin() {
+    public void reloadPlugin(CommandSender sender, String[] args) {
+        
+        if (args.length > 2) {
+            sender.sendMessage(red + "Too many arguments!");
+            return;
+        }
+        
+        if (getPlugin(args[1]) != null) {
+            Plugin targetPlugin = getPlugin(args[1]);
+            Bukkit.getPluginManager().disablePlugin(targetPlugin);
+            Bukkit.getPluginManager().enablePlugin(targetPlugin);
+            sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Reloaded!");
+        } else {
+            sender.sendMessage(red + "Plugin not found!");
+        }
+        
     }
 
     public void enablePlugin(CommandSender sender, String[] args) {
+        
+        if (args.length > 2 ) {
+            sender.sendMessage(red + "Too many arguments!");
+            return;
+        }
+
+        if (getPlugin(args[1]) != null) {
+            Plugin targetPlugin = getPlugin(args[1]);
+            Bukkit.getPluginManager().enablePlugin(targetPlugin);
+            sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Enabled!");
+            return;
+        } else {
+            sender.sendMessage(red + "Plugin not found!");
+        }
     }
 
-    public void disablePlugin() {
+    public void disablePlugin(CommandSender sender, String[] args) {
+        
+        if (args.length > 2 ) {
+            sender.sendMessage(red + "Too many arguements!");
+            return;
+        }
+
+        if (getPlugin(args[1]) != null) {
+            Plugin targetPlugin = getPlugin(args[1]);
+            Bukkit.getPluginManager().disablePlugin(targetPlugin);
+            sender.sendMessage(yellow + "[" + targetPlugin + "] " + red + "Disabled!");
+            return;
+        } else {
+            sender.sendMessage(red + "Plugin not found!");
+        }
     }
 
     public void pluginInfo() {

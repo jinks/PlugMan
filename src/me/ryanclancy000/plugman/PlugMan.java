@@ -1,5 +1,6 @@
 package me.ryanclancy000.plugman;
 
+import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -47,7 +48,7 @@ public class PlugMan extends JavaPlugin {
             return true;
         }
 
-        // Help Command
+        // Help Command - DONE
 
         if ("help".equalsIgnoreCase(args[0])) {
 
@@ -82,11 +83,11 @@ public class PlugMan extends JavaPlugin {
                 return true;
             }
 
-            cHandler.reloadPlugin();
+            cHandler.reloadPlugin(sender, args);
             return true;
         }
 
-        // Enable Command
+        // Enable Command - DONE
 
         if ("enable".equalsIgnoreCase(args[0])) {
 
@@ -99,7 +100,7 @@ public class PlugMan extends JavaPlugin {
             return true;
         }
 
-        // Disable Command
+        // Disable Command - DONE
 
         if ("disable".equalsIgnoreCase(args[0])) {
 
@@ -108,7 +109,7 @@ public class PlugMan extends JavaPlugin {
                 return true;
             }
 
-            cHandler.disablePlugin();
+            cHandler.disablePlugin(sender, args);
             return true;
         }
 
