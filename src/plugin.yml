@@ -1,6 +1,6 @@
 name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
-version: 1.5.1
+version: 1.5.1 - Test
 description: Plugin Manager Mod for Bukkit
 author: ryanclancy000, originally by bekvon.
 commands:
