@@ -59,9 +59,24 @@ public class PlugMan extends JavaPlugin {
 
             cHandler.helpList(sender);
             return true;
+            
         }
 
-        // Load Command
+        // List Command
+
+        if ("list".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.list")) {
+                noPerms(sender);
+                return true;
+            }
+
+            cHandler.listPlugins(sender, args);
+            return true;
+
+        }
+
+        // Load Command - Semi Done
 
         if ("load".equalsIgnoreCase(args[0])) {
 
@@ -70,11 +85,12 @@ public class PlugMan extends JavaPlugin {
                 return true;
             }
 
-            cHandler.loadPlugin();
+            cHandler.loadPlugin(sender, args);
             return true;
+
         }
 
-        // Reload Command
+        // Reload Command - DONE
 
         if ("reload".equalsIgnoreCase(args[0])) {
 
@@ -85,6 +101,7 @@ public class PlugMan extends JavaPlugin {
 
             cHandler.reloadPlugin(sender, args);
             return true;
+            
         }
 
         // Enable Command - DONE
@@ -98,6 +115,7 @@ public class PlugMan extends JavaPlugin {
 
             cHandler.enablePlugin(sender, args);
             return true;
+            
         }
 
         // Disable Command - DONE
@@ -111,6 +129,7 @@ public class PlugMan extends JavaPlugin {
 
             cHandler.disablePlugin(sender, args);
             return true;
+            
         }
 
         // Info Command
@@ -122,37 +141,11 @@ public class PlugMan extends JavaPlugin {
                 return true;
             }
 
-            cHandler.pluginInfo();
+            cHandler.pluginInfo(sender, args);
             return true;
+            
         }
 
-        // Usage Command
-
-        if ("usage".equalsIgnoreCase(args[0])) {
-
-            if (!sender.hasPermission("plugman.usage")) {
-                noPerms(sender);
-                return true;
-            }
-
-            cHandler.commandUsage();
-            return true;
-        }
-
-        // Describe Command
-
-        if ("describe".equalsIgnoreCase(args[0])) {
-
-            if (!sender.hasPermission("plugman.describe")) {
-                noPerms(sender);
-                return true;
-            }
-
-            cHandler.describeCommand();
-            return true;
-        }
-
-        cHandler.thisInfo(sender);
         return false;
 
     }
