@@ -19,3 +19,25 @@ permissions:
       plugman.reload: true
       plugman.enable: true
       plugman.disable: true
+  plugman.help:
+    description: Allows use of the help command.
+    default: true
+  plugman.list:
+    description: Allows use of the help command.
+    default: true
+  plugman.info:
+    description: Allows use of the help command.
+    default: true
+  plugman.load:
+    description: Allows use of the help command.
+    default: op
+  plugman.reload:
+    description: Allows use of the help command.
+    default: op
+  plugman.enable:
+    description: Allows use of the help command.
+    default: op
+  plugman.disable:
+    description: Allows use of the help command.
+    default: op
+  
