@@ -9,3 +9,5 @@ commands:
     usage: /plugman [list|vlist|help]
            /plugman [load|reload|disable|enable|info|usage] [PluginName]
            /plugman [describe] [CommandName] [PluginName]
+           
+#test 123
