@@ -17,6 +17,7 @@ public class PlugMan extends JavaPlugin {
 
     Server mcserver;
     PluginManager serverPM;
+    
     ChatColor red = ChatColor.RED;
     ChatColor green = ChatColor.GREEN;
     ChatColor yellow = ChatColor.YELLOW;
