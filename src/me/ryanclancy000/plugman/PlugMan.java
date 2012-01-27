@@ -17,7 +17,6 @@ public class PlugMan extends JavaPlugin {
 
     Server mcserver;
     PluginManager serverPM;
-    
     ChatColor red = ChatColor.RED;
     ChatColor green = ChatColor.GREEN;
     ChatColor yellow = ChatColor.YELLOW;
@@ -55,7 +54,7 @@ public class PlugMan extends JavaPlugin {
             helpList(sender);
             return true;
         }
-        
+
         String command = args[0];
 
         if (command.equalsIgnoreCase("list") || command.equalsIgnoreCase("vlist") && !error) {
@@ -84,8 +83,8 @@ public class PlugMan extends JavaPlugin {
                 helpList(sender);
                 return true;
             } else {
-            out.add(red + "You must specify a Plugin Name!");
-            error = true;
+                out.add(red + "You must specify a Plugin Name!");
+                error = true;
             }
         }
 
@@ -118,14 +117,14 @@ public class PlugMan extends JavaPlugin {
         if (!error) {
             targetPlugin = getPlugin(pluginName);
         }
-        
+
         if (targetPlugin == null && !error) {
             if ("help".equalsIgnoreCase(args[0])) {
                 helpList(sender);
                 return true;
             } else {
-            out.add(red + "Invalid plugin, check name and try again.");
-            error = true;
+                out.add(red + "Invalid plugin, check name and try again.");
+                error = true;
             }
         }
 
@@ -155,14 +154,16 @@ public class PlugMan extends JavaPlugin {
             } else {
                 sender.sendMessage(ChatTools.stripColor(s));
             }
-        }        
+        }
         return false;
     }
 
     private void listPluginsByPage(CommandSender sender, int page, boolean appendVersion) {
-        if (!(sender.hasPermission("plugman.list"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.list"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         StringBuilder pluginList = new StringBuilder();
         Plugin[] plugins = serverPM.getPlugins();
@@ -205,9 +206,11 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void listPlugins(CommandSender sender, boolean appendVersion) {
-        if (!(sender.hasPermission("plugman.list"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.list"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         StringBuilder pluginList = new StringBuilder();
         Plugin[] plugins = serverPM.getPlugins();
@@ -233,7 +236,7 @@ public class PlugMan extends JavaPlugin {
             sender.sendMessage(ChatTools.stripColor(pluginList.toString()));
         }
     }
-    
+
     public Plugin getPlugin(String parm) {
         for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
             if (plugin.getDescription().getName().equalsIgnoreCase(parm)) {
@@ -250,9 +253,11 @@ public class PlugMan extends JavaPlugin {
         String descript = targetPlugin.getDescription().getDescription();
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.info"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.info"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         if (targetPlugin.isEnabled()) {
             out.add(yellow + "[" + targetPlugin.getDescription().getName() + "] Status: " + green + "Enabled");
@@ -263,7 +268,7 @@ public class PlugMan extends JavaPlugin {
         if (version == null || version.equalsIgnoreCase("")) {
             out.add(red + "" + pluginName + " has a invalid version field.");
         } else {
-            out.add("Version: "+ green + targetPlugin.getDescription().getVersion());
+            out.add("Version: " + green + targetPlugin.getDescription().getVersion());
         }
 
 
@@ -297,14 +302,16 @@ public class PlugMan extends JavaPlugin {
         }
 
     }
-    
+
     private void helpList(CommandSender sender) {
-        
-        if (!(sender.hasPermission("plugman.help"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.help"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
-        
+
         sender.sendMessage(yellow + "PlugMan " + green + "Help:");
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
         sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with version.");
@@ -322,18 +329,22 @@ public class PlugMan extends JavaPlugin {
         ArrayList<String> out = new ArrayList<String>();
         boolean error = false;
 
-        if (!(sender.hasPermission("plugman.disable"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.disable"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
+
+
         if (targetPlugin.isEnabled() == false) {
-            out.add(yellow + "Plugin " +red+ "[" + pluginName + "]" + yellow + " is already disabled!");
+            out.add(yellow + "Plugin " + red + "[" + pluginName + "]" + yellow + " is already disabled!");
             error = true;
         }
         if (!error) {
             serverPM.disablePlugin(targetPlugin);
             if (!targetPlugin.isEnabled()) {
-                out.add(yellow +"Disabled: " + red + "[" + pluginName + "]");
+                out.add(yellow + "Disabled: " + red + "[" + pluginName + "]");
             } else {
                 out.add(yellow + "Plugin " + red + "FAILED" + yellow + " to Disable: " + green + "[" + pluginName + "]");
             }
@@ -354,10 +365,13 @@ public class PlugMan extends JavaPlugin {
         ArrayList<String> out = new ArrayList<String>();
         boolean error = false;
 
-        if (!(sender.hasPermission("plugman.enable"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.enable"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
+        
         if (targetPlugin.isEnabled() == true) {
             out.add(yellow + "Plugin " + green + "[" + pluginName + "]" + yellow + " is already enabled!");
             error = true;
@@ -381,9 +395,11 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void reloadPlugin(CommandSender sender, Plugin targetPlugin) {
-        if (!(sender.hasPermission("plugman.reload"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.reload"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         disablePlugin(sender, targetPlugin);
         enablePlugin(sender, targetPlugin);
@@ -392,9 +408,11 @@ public class PlugMan extends JavaPlugin {
     private void loadPlugin(CommandSender sender, String pluginName) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.load"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.load"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         File pluginFile = new File(new File("plugins"), pluginName + ".jar");
         if (pluginFile.isFile()) {
@@ -436,9 +454,11 @@ public class PlugMan extends JavaPlugin {
     private void listCommands(CommandSender sender, Plugin targetPlugin) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.usage"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.usage"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         ArrayList<String> parsedCommands = new ArrayList<String>();
         LinkedHashMap commands = (LinkedHashMap) targetPlugin.getDescription().getCommands();
@@ -485,9 +505,11 @@ public class PlugMan extends JavaPlugin {
     private void describeCommand(CommandSender sender, Plugin targetPlugin, String commandName) {
         ArrayList<String> out = new ArrayList<String>();
 
-        if (!(sender.hasPermission("plugman.describe"))) {
-            sender.sendMessage(red + "You don't have permission to do this...");
-            return;
+        if (sender instanceof Player) {
+            if (!(sender.hasPermission("plugman.describe"))) {
+                sender.sendMessage(red + "You don't have permission to do this...");
+                return;
+            }
         }
         LinkedHashMap commands = (LinkedHashMap) targetPlugin.getDescription().getCommands();
         if (commands.containsKey(commandName)) {
