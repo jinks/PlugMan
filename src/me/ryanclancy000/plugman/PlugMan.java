@@ -74,6 +74,20 @@ public class PlugMan extends JavaPlugin {
             return true;
 
         }
+        
+        // Info Command
+
+        if ("info".equalsIgnoreCase(args[0])) {
+
+            if (!sender.hasPermission("plugman.info")) {
+                noPerms(sender);
+                return true;
+            }
+
+            cHandler.pluginInfo(sender, args);
+            return true;
+            
+        }
 
         // Load Command - Semi Done
 
@@ -127,20 +141,6 @@ public class PlugMan extends JavaPlugin {
             }
 
             cHandler.disablePlugin(sender, args);
-            return true;
-            
-        }
-
-        // Info Command
-
-        if ("info".equalsIgnoreCase(args[0])) {
-
-            if (!sender.hasPermission("plugman.info")) {
-                noPerms(sender);
-                return true;
-            }
-
-            cHandler.pluginInfo(sender, args);
             return true;
             
         }

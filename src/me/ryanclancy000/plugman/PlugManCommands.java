@@ -1,7 +1,6 @@
 package me.ryanclancy000.plugman;
 
 import java.io.File;
-import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +31,8 @@ public class PlugManCommands {
     }
 
     public void thisInfo(CommandSender sender) {
-        sender.sendMessage(yellow + p.PDF.getName() + green + " v" + p.PDF.getVersion() + white + " by " + green + p.PDF.getAuthors());
+        sender.sendMessage(yellow + "[" + p.PDF.getName()+ "]" + green + " v" + p.PDF.getVersion() + white + " by " + green + p.PDF.getAuthors());
+        sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
     }
 
     public void helpList(CommandSender sender) {
@@ -52,12 +52,33 @@ public class PlugManCommands {
             return;
         }
         
-       
+    }
+    
+    public void pluginInfo(CommandSender sender, String[] args) {
+        
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
+        
+        if (args.length > 2) {
+            sender.sendMessage(red + "Too many arguments");
+            return;
+        }
+        
+        Plugin targetPlugin = getPlugin(args[1]);
+        
+        sender.sendMessage("Test");
         
     }
 
     public void loadPlugin(CommandSender sender, String[] args) {
 
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
+        
         if (args.length > 2) {
             sender.sendMessage(red + "Too many arguments!");
             return;
@@ -66,6 +87,8 @@ public class PlugManCommands {
         String pluginName = args[1];
         Plugin targetPlugin = getPlugin(args[1]);
         File pluginFile = new File(new File("plugins"), pluginName + ".jar");
+        
+        sender.sendMessage(targetPlugin.toString());
 
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
@@ -99,11 +122,16 @@ public class PlugManCommands {
 
     public void reloadPlugin(CommandSender sender, String[] args) {
 
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
+        
         if (args.length > 2) {
             sender.sendMessage(red + "Too many arguments!");
             return;
         }
-
+        
         if (getPlugin(args[1]) != null) {
             Plugin targetPlugin = getPlugin(args[1]);
             Bukkit.getPluginManager().disablePlugin(targetPlugin);
@@ -116,6 +144,11 @@ public class PlugManCommands {
     }
 
     public void enablePlugin(CommandSender sender, String[] args) {
+        
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
 
         if (args.length > 2) {
             sender.sendMessage(red + "Too many arguments!");
@@ -134,6 +167,11 @@ public class PlugManCommands {
     }
 
     public void disablePlugin(CommandSender sender, String[] args) {
+        
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
 
         if (args.length > 2) {
             sender.sendMessage(red + "Too many arguements!");
@@ -149,19 +187,5 @@ public class PlugManCommands {
             sender.sendMessage(red + "Plugin not found!");
         }
     }
-
-    public void pluginInfo(CommandSender sender, String[] args) {
-        
-        if (args.length > 2) {
-            sender.sendMessage(red + "Too many arguments");
-            return;
-        }
-        
-        Plugin targetPlugin = getPlugin(args[1]);
-        ArrayList<String> authors = targetPlugin.getDescription().getAuthors();
-        
-        
-        sender.sendMessage("");
-        
-    }
+    
 }
