@@ -67,7 +67,6 @@ public class PlugManCommands {
         }
         
         Plugin targetPlugin = getPlugin(args[1]);
-        
         sender.sendMessage("Test");
         
     }
@@ -102,8 +101,8 @@ public class PlugManCommands {
 
             try {
                 Bukkit.getPluginManager().loadPlugin(pluginFile);
-                Bukkit.getPluginManager().enablePlugin(targetPlugin);
-                sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Loaded and Enabled!");
+                Bukkit.getPluginManager().enablePlugin(getPlugin(args[1]));
+                sender.sendMessage(yellow + "[" + getPlugin(args[1]) + "] " + green + "Loaded and Enabled!");
             } catch (UnknownDependencyException ex) {
                 sender.sendMessage(red + "File exists, but is not a plugin file.");
             } catch (InvalidPluginException ex) {
