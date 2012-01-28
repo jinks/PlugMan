@@ -88,8 +88,6 @@ public class PlugManCommands {
         Plugin targetPlugin = getPlugin(args[1]);
         File pluginFile = new File(new File("plugins"), pluginName + ".jar");
         
-        sender.sendMessage(targetPlugin.toString());
-
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
                 sender.sendMessage(red + "Plugin already loaded and is enabled!");
