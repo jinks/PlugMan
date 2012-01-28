@@ -22,13 +22,13 @@ permissions:
       plugman.disable: true
   plugman.help:
     description: Allows use of the help command.
-    default: true
+    default: op
   plugman.list:
     description: Allows use of the help command.
-    default: true
+    default: op
   plugman.info:
     description: Allows use of the help command.
-    default: true
+    default: op
   plugman.load:
     description: Allows use of the help command.
     default: op
