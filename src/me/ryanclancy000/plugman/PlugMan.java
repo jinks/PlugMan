@@ -47,7 +47,7 @@ public class PlugMan extends JavaPlugin {
             return true;
         }
 
-        // Help Command - DONE
+        // Help Command
 
         if ("help".equalsIgnoreCase(args[0])) {
 
@@ -89,7 +89,7 @@ public class PlugMan extends JavaPlugin {
             
         }
 
-        // Load Command - Semi Done
+        // Load Command
 
         if ("load".equalsIgnoreCase(args[0])) {
 
@@ -103,7 +103,7 @@ public class PlugMan extends JavaPlugin {
 
         }
 
-        // Reload Command - DONE
+        // Reload Command
 
         if ("reload".equalsIgnoreCase(args[0])) {
 
@@ -117,7 +117,7 @@ public class PlugMan extends JavaPlugin {
             
         }
 
-        // Enable Command - DONE
+        // Enable Command
 
         if ("enable".equalsIgnoreCase(args[0])) {
 
@@ -131,7 +131,7 @@ public class PlugMan extends JavaPlugin {
             
         }
 
-        // Disable Command - DONE
+        // Disable Command
 
         if ("disable".equalsIgnoreCase(args[0])) {
 
