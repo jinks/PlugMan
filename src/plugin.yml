@@ -1,6 +1,6 @@
 name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
-version: 1.6
+version: 1.6.2
 description: Plugin Manager Plugin for Bukkit
 author: ryanclancy000
 commands:
@@ -41,4 +41,3 @@ permissions:
   plugman.disable:
     description: Allows use of the help command.
     default: op
-  
