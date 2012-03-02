@@ -1,19 +1,15 @@
 package me.ryanclancy000.plugman;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
     public PluginDescriptionFile PDF;
-    Server server;
-    PluginManager pm;
     ChatColor yellow = ChatColor.YELLOW;
     ChatColor green = ChatColor.GREEN;
     ChatColor white = ChatColor.WHITE;
@@ -24,8 +20,6 @@ public class PlugMan extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        server = this.getServer();
-        pm = this.getServer().getPluginManager();
         PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
     }
@@ -84,7 +78,7 @@ public class PlugMan extends JavaPlugin {
                 return true;
             }
 
-            cHandler.pluginInfo(sender, args);
+            cHandler.thisInfo(sender, args);
             return true;
             
         }
