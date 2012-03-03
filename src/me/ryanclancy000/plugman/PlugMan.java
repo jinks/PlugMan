@@ -9,10 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
-    public PluginDescriptionFile PDF;
-    ChatColor yellow = ChatColor.YELLOW;
-    ChatColor green = ChatColor.GREEN;
-    ChatColor white = ChatColor.WHITE;
+    public PluginDescriptionFile PDF = this.getDescription();
 
     @Override
     public void onDisable() {
@@ -26,7 +23,6 @@ public class PlugMan extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
         if (cmd.getName().equalsIgnoreCase("plugman")) {
             return doCommand(sender, args);
         }
@@ -34,113 +30,84 @@ public class PlugMan extends JavaPlugin {
         return onCommand(sender, cmd, commandLabel, args);
     }
 
-    private boolean doCommand(CommandSender sender, String args[]) {
-
+    private boolean doCommand(CommandSender sender, String[] args) {
+        
         if (args.length == 0) {
-            cHandler.thisInfo(sender);
+            this.cHandler.thisInfo(sender);
             return true;
         }
 
-        // Help Command
-
         if ("help".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.help")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.helpList(sender);
+            this.cHandler.helpList(sender);
             return true;
-            
         }
 
-        // List Command
-
         if ("list".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.list")) {
                 noPerms(sender);
                 return true;
             }
-
-            cHandler.listPlugins(sender, args);
+            
+            this.cHandler.listPlugins(sender, args);
             return true;
-
         }
-        
-        // Info Command
 
         if ("info".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.info")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.thisInfo(sender, args);
+            this.cHandler.pluginInfo(sender, args);
             return true;
-            
         }
 
-        // Load Command
-
         if ("load".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.load")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.loadPlugin(sender, args);
+            this.cHandler.loadPlugin(sender, args);
             return true;
-
         }
 
-        // Reload Command
-
         if ("reload".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.reload")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.reloadPlugin(sender, args);
+            this.cHandler.reloadPlugin(sender, args);
             return true;
-            
         }
 
-        // Enable Command
-
         if ("enable".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.enable")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.enablePlugin(sender, args);
+            this.cHandler.enablePlugin(sender, args);
             return true;
-            
         }
 
-        // Disable Command
-
         if ("disable".equalsIgnoreCase(args[0])) {
-
             if (!sender.hasPermission("plugman.disable")) {
                 noPerms(sender);
                 return true;
             }
 
-            cHandler.disablePlugin(sender, args);
+            this.cHandler.disablePlugin(sender, args);
             return true;
-            
         }
 
         return false;
-
     }
 
     public void noPerms(CommandSender sender) {
