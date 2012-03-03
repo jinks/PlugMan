@@ -76,6 +76,16 @@ public class PlugMan extends JavaPlugin {
             this.cHandler.usage(sender, args);
             return true;
         }
+        
+        if ("test".equalsIgnoreCase(args[0])) {
+            if (!sender.hasPermission("plugman.test")) {
+                noPerms(sender);
+                return true;
+            }
+            
+            this.cHandler.permTest(sender, args);
+            return true;
+        }
 
         if ("load".equalsIgnoreCase(args[0])) {
             if (!sender.hasPermission("plugman.load")) {

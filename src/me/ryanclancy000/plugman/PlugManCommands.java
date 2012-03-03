@@ -4,6 +4,7 @@ import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
@@ -16,6 +17,7 @@ public class PlugManCommands {
     ChatColor green = ChatColor.GREEN;
     ChatColor red = ChatColor.RED;
     ChatColor white = ChatColor.WHITE;
+    String pre = yellow + "[PlugMan] ";
 
     public PlugManCommands(PlugMan instance) {
         p = instance;
@@ -46,11 +48,14 @@ public class PlugManCommands {
     }
 
     public void listPlugins(CommandSender sender, String[] args) {
+        
         if (args.length > 1) {
             sender.sendMessage(red + "Too many arguments");
             return;
         }
+        
         StringBuilder pluginList = new StringBuilder();
+        
         for (Plugin pl : p.getServer().getPluginManager().getPlugins()) {
             if (pluginList.length() > 0) {
                 pluginList.append(white + ", ");
@@ -59,6 +64,7 @@ public class PlugManCommands {
             pluginList.append(pl.getDescription().getFullName());
         }
         sender.sendMessage(yellow + "Plugins: " + pluginList);
+        
     }
 
     public void pluginInfo(CommandSender sender, String[] args) {
@@ -75,6 +81,7 @@ public class PlugManCommands {
 
         Plugin targetPlugin = getPlugin(args[1]);
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
+    
     }
 
     //plugman usage[0] plugin[1] cmd[2]
@@ -88,8 +95,28 @@ public class PlugManCommands {
         Plugin targetPlugin = getPlugin(args[1]);
 
     }
+    
+    public void permTest(CommandSender sender, String[] args) {
+        
+        Player player = (Player) sender;
+        
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify permission node!");
+        }
+        
+        if (args.length == 2) {
+            if (sender.hasPermission(args[1])) {
+                sender.sendMessage(pre + green + "You have permission for " + args[1]);
+            } else {
+                sender.sendMessage(pre + red + "You do no have permission for " + args[1]);
+            }
+            return;
+        }
+        
+    }
 
     public void loadPlugin(CommandSender sender, String[] args) {
+        
         if (args.length == 1) {
             sender.sendMessage(red + "Must specify a plugin!");
             return;
@@ -128,6 +155,7 @@ public class PlugManCommands {
         } else {
             sender.sendMessage(red + "File doesn't exist!");
         }
+        
     }
 
     public void reloadPlugin(CommandSender sender, String[] args) {

@@ -17,6 +17,8 @@ permissions:
       plugman.list: true
       plugman.info: true
       plugman.load: true
+      plugman.usage: true
+      plugman.test: true
       plugman.reload: true
       plugman.enable: true
       plugman.disable: true
