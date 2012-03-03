@@ -24,20 +24,20 @@ permissions:
     description: Allows use of the help command.
     default: op
   plugman.list:
-    description: Allows use of the help command.
+    description: Allows use of the list command.
     default: op
   plugman.info:
-    description: Allows use of the help command.
+    description: Allows use of the info command.
     default: op
   plugman.load:
-    description: Allows use of the help command.
+    description: Allows use of the load command.
     default: op
   plugman.reload:
-    description: Allows use of the help command.
+    description: Allows use of the reload command.
     default: op
   plugman.enable:
-    description: Allows use of the help command.
+    description: Allows use of the enable command.
     default: op
   plugman.disable:
-    description: Allows use of the help command.
+    description: Allows use of the disable command.
     default: op
