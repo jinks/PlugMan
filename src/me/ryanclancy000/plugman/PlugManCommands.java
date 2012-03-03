@@ -77,6 +77,18 @@ public class PlugManCommands {
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
     }
 
+    //plugman usage[0] plugin[1] cmd[2]
+    public void usage(CommandSender sender, String[] args) {
+
+        if (args.length == 1) {
+            sender.sendMessage(red + "Must specify a plugin!");
+            return;
+        }
+
+        Plugin targetPlugin = getPlugin(args[1]);
+
+    }
+
     public void loadPlugin(CommandSender sender, String[] args) {
         if (args.length == 1) {
             sender.sendMessage(red + "Must specify a plugin!");
@@ -119,7 +131,7 @@ public class PlugManCommands {
     }
 
     public void reloadPlugin(CommandSender sender, String[] args) {
-        
+
         if (args.length == 1) {
             sender.sendMessage(red + "Must specify a plugin!");
             return;
@@ -129,15 +141,26 @@ public class PlugManCommands {
             sender.sendMessage(red + "Too many arguments!");
             return;
         }
-
-        if (getPlugin(args[1]) != null) {
-            Plugin targetPlugin = getPlugin(args[1]);
-            Bukkit.getPluginManager().disablePlugin(targetPlugin);
-            Bukkit.getPluginManager().enablePlugin(targetPlugin);
-            sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Reloaded!");
-        } else {
-            sender.sendMessage(red + "Plugin not found!");
+        
+        if ("all".equalsIgnoreCase(args[1])) {
+            for (Plugin p : Bukkit.getPluginManager().getPlugins()) {
+                Bukkit.getPluginManager().disablePlugin(p);
+                Bukkit.getPluginManager().enablePlugin(p);
+            }
+            sender.sendMessage(yellow + "[PlugMan] " + green + "All plugins reloaded!");
+            return;
         }
+
+        if (getPlugin(args[1]) == null) {
+            sender.sendMessage(red + "Plugin not found!");
+            return;
+        }
+
+        Plugin targetPlugin = getPlugin(args[1]);
+        Bukkit.getPluginManager().disablePlugin(targetPlugin);
+        Bukkit.getPluginManager().enablePlugin(targetPlugin);
+        sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Reloaded!");
+
     }
 
     public void enablePlugin(CommandSender sender, String[] args) {
