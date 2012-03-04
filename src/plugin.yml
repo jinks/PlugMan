@@ -16,9 +16,8 @@ permissions:
       plugman.help: true
       plugman.list: true
       plugman.info: true
-      plugman.load: true
-      plugman.usage: true
       plugman.test: true
+      plugman.load: true
       plugman.reload: true
       plugman.enable: true
       plugman.disable: true
@@ -30,6 +29,9 @@ permissions:
     default: op
   plugman.info:
     description: Allows use of the info command.
+    default: op
+  plugman.test:
+    description: Allowed use of the test command.
     default: op
   plugman.load:
     description: Allows use of the load command.

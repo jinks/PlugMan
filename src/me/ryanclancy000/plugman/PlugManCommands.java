@@ -4,6 +4,7 @@ import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
@@ -42,9 +43,9 @@ public class PlugManCommands {
         sender.sendMessage(pre + green + "Help:");
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
-        //sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
+        sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
         sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all) - " + yellow + "Reloads a plugin.");
+        sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all] - " + yellow + "Reloads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "enable [plugin] - " + yellow + "Enables a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "disable [plugin] - " + yellow + "Disables a plugin.");
     }
@@ -86,7 +87,38 @@ public class PlugManCommands {
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
     }
 
+    // Test Command
+    public void testPerms(CommandSender sender, String[] args) {
+
+        if (args.length == 2) {
+            if (sender.hasPermission(args[1])) {
+                sender.sendMessage(pre + green + "You have permission for " + args[1]);
+            } else {
+                sender.sendMessage(pre + red + "You do not have permission for " + args[1]);
+            }
+        }
+
+        if (args.length == 3) {
+
+            try {
+                Player target = Bukkit.getPlayer(args[2]);
+                if (target.isOnline()) {
+                    if (target.hasPermission(args[1])) {
+                        sender.sendMessage(pre + green + target.getName() + " has permission for " + args[1]);
+                    } else {
+                        sender.sendMessage(pre + red + target.getName() + " does not have permission for " + args[1]);
+                    }
+                }
+
+            } catch (Exception e) {
+                sender.sendMessage(red + "Player not online!");
+            }
+        }
+
+
+    }
     // Load Command
+
     public void loadPlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
@@ -101,9 +133,9 @@ public class PlugManCommands {
             }
         }
 
-        String pluginName = args[1];
-        Plugin targetPlugin = getPlugin(args[1]);
-        File pluginFile = new File(new File("plugins"), pluginName + ".jar");
+        String pluginName = pl;
+        Plugin targetPlugin = getPlugin(pl);
+        File pluginFile = new File(new File("plugins"), pl + ".jar");
 
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
@@ -117,8 +149,8 @@ public class PlugManCommands {
         if (pluginFile.isFile()) {
             try {
                 Bukkit.getPluginManager().loadPlugin(pluginFile);
-                Bukkit.getPluginManager().enablePlugin(getPlugin(args[1]));
-                sender.sendMessage(yellow + "[" + getPlugin(args[1]) + "] " + green + "Loaded and Enabled!");
+                Bukkit.getPluginManager().enablePlugin(getPlugin(pl));
+                sender.sendMessage(yellow + "[" + getPlugin(pl) + "] " + green + "Loaded and Enabled!");
             } catch (UnknownDependencyException e) {
                 sender.sendMessage(red + "File exists, but is not a plugin file.");
             } catch (InvalidPluginException e) {
