@@ -80,7 +80,7 @@ public class PlugManCommands {
         }
 
         if (args.length > 2) {
-            sender.sendMessage(red + "Too many arguements!");
+            sender.sendMessage(red + "Too many arguments!");
         }
 
         Plugin targetPlugin = getPlugin(args[1]);
