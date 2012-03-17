@@ -34,7 +34,7 @@ public class PlugManCommands {
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
-        sender.sendMessage(pre + green + " v" + p.PDF.getVersion() + white + " by " + green + "ryanclancy000");
+        sender.sendMessage(pre + green + "v" + p.PDF.getVersion() + white + " by " + green + "ryanclancy000");
         sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
     }
 
@@ -44,6 +44,7 @@ public class PlugManCommands {
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
         sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
+        sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins");
         sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all] - " + yellow + "Reloads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "enable [plugin] - " + yellow + "Enables a plugin.");
@@ -75,12 +76,12 @@ public class PlugManCommands {
     public void pluginInfo(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
 
         if (args.length > 2) {
-            sender.sendMessage(red + "Too many arguments!");
+            sender.sendMessage(pre + red + "Too many arguments!");
         }
 
         Plugin targetPlugin = getPlugin(args[1]);
@@ -111,18 +112,31 @@ public class PlugManCommands {
                 }
 
             } catch (Exception e) {
-                sender.sendMessage(red + "Player not online!");
+                sender.sendMessage(pre + red + "Player not online!");
             }
         }
 
 
     }
-    // Load Command
 
+    // Purge Command
+    public void purgePlugins(CommandSender sender, String[] args) {
+
+        if (args.length != 1) {
+            sender.sendMessage(pre + red + "Too many arguments!");
+            return;
+        }
+
+        Bukkit.getPluginManager().clearPlugins();
+        sender.sendMessage(pre + red + "All plugins disabled, reload (from console) or restart the server to re-enable them!");
+
+    }
+
+    // Load Command
     public void loadPlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
 
@@ -133,16 +147,15 @@ public class PlugManCommands {
             }
         }
 
-        String pluginName = pl;
         Plugin targetPlugin = getPlugin(pl);
         File pluginFile = new File(new File("plugins"), pl + ".jar");
 
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
-                sender.sendMessage(red + "Plugin already loaded and is enabled!");
+                sender.sendMessage(pre + red + "Plugin already loaded and is enabled!");
                 return;
             }
-            sender.sendMessage(red + "Plugin already loaded, but is disabled!");
+            sender.sendMessage(pre + red + "Plugin already loaded, but is disabled!");
             return;
         }
 
@@ -150,16 +163,16 @@ public class PlugManCommands {
             try {
                 Bukkit.getPluginManager().loadPlugin(pluginFile);
                 Bukkit.getPluginManager().enablePlugin(getPlugin(pl));
-                sender.sendMessage(yellow + "[" + getPlugin(pl) + "] " + green + "Loaded and Enabled!");
+                sender.sendMessage(pre + green + getPlugin(pl) + " Loaded and Enabled!");
             } catch (UnknownDependencyException e) {
-                sender.sendMessage(red + "File exists, but is not a plugin file.");
+                sender.sendMessage(pre + red + "File exists, but is not a plugin file.");
             } catch (InvalidPluginException e) {
-                sender.sendMessage(red + "File exists, but is not a plugin file.");
+                sender.sendMessage(pre + red + "File exists, but is not a plugin file.");
             } catch (InvalidDescriptionException e) {
-                sender.sendMessage(red + "Plugin exists, but is invalid.");
+                sender.sendMessage(pre + red + "Plugin exists, but is invalid.");
             }
         } else {
-            sender.sendMessage(red + "File doesn't exist!");
+            sender.sendMessage(pre + red + "File doesn't exist!");
         }
 
     }
@@ -168,7 +181,7 @@ public class PlugManCommands {
     public void reloadPlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
 
@@ -189,14 +202,14 @@ public class PlugManCommands {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(red + "Plugin not found!");
+            sender.sendMessage(pre + red + "Plugin not found!");
             return;
         }
 
         Plugin targetPlugin = getPlugin(pl);
         Bukkit.getPluginManager().disablePlugin(targetPlugin);
         Bukkit.getPluginManager().enablePlugin(targetPlugin);
-        sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Reloaded!");
+        sender.sendMessage(pre + green + targetPlugin.getName() + " Reloaded!");
 
     }
 
@@ -204,7 +217,7 @@ public class PlugManCommands {
     public void enablePlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
 
@@ -216,18 +229,18 @@ public class PlugManCommands {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(red + "Plugin not found!");
+            sender.sendMessage(pre + red + "Plugin not found!");
             return;
         }
 
         if (getPlugin(pl).isEnabled()) {
-            sender.sendMessage(red + "Plugin already enabled!");
+            sender.sendMessage(pre + red + "Plugin already enabled!");
             return;
         }
 
         Plugin targetPlugin = getPlugin(pl);
         Bukkit.getPluginManager().enablePlugin(targetPlugin);
-        sender.sendMessage(yellow + "[" + targetPlugin + "] " + green + "Enabled!");
+        sender.sendMessage(pre + green + targetPlugin.getName() + " Enabled!");
 
     }
 
@@ -235,7 +248,7 @@ public class PlugManCommands {
     public void disablePlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
 
@@ -248,18 +261,18 @@ public class PlugManCommands {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(red + "Plugin not found!");
+            sender.sendMessage(pre + red + "Plugin not found!");
             return;
         }
 
         if (!getPlugin(pl).isEnabled()) {
-            sender.sendMessage(red + "Plugin already disabled!");
+            sender.sendMessage(pre + red + "Plugin already disabled!");
             return;
         }
 
         Plugin targetPlugin = getPlugin(pl);
         Bukkit.getPluginManager().disablePlugin(targetPlugin);
-        sender.sendMessage(yellow + "[" + targetPlugin + "] " + red + "Disabled!");
+        sender.sendMessage(pre + red + targetPlugin.getName() + " Disabled!");
 
     }
 }

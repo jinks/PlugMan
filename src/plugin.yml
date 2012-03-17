@@ -1,14 +1,15 @@
 name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
-version: 1.6.3
+version: 1.6.4
 description: Plugin Manager for Bukkit
 author: ryanclancy000
 commands:
   plugman:
     description: Manage Plugins Status.
     aliases: pm
-    usage: /plugman [help|list]
-           /plugman [info|test|load|reload|enable|disable] [PluginName]
+    usage: /plugman [help|list|purge]
+           /plugman test [PermissionNode] [Player]
+           /plugman [info|load|reload|enable|disable] [PluginName]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.
@@ -17,6 +18,7 @@ permissions:
       plugman.list: true
       plugman.info: true
       plugman.test: true
+      plugman.purge: true
       plugman.load: true
       plugman.reload: true
       plugman.enable: true
@@ -32,6 +34,9 @@ permissions:
     default: op
   plugman.test:
     description: Allowed use of the test command.
+    default: op
+  plugman.purge:
+    description: Allows use of the purge command.
     default: op
   plugman.load:
     description: Allows use of the load command.

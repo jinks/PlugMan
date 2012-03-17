@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
-    public PluginDescriptionFile PDF = this.getDescription();
+    public PluginDescriptionFile PDF;
 
     @Override
     public void onDisable() {
@@ -31,7 +31,7 @@ public class PlugMan extends JavaPlugin {
     }
 
     private boolean doCommand(CommandSender sender, String[] args) {
-        
+
         if (args.length == 0) {
             this.cHandler.thisInfo(sender);
             return true;
@@ -52,7 +52,7 @@ public class PlugMan extends JavaPlugin {
                 noPerms(sender);
                 return true;
             }
-            
+
             this.cHandler.listPlugins(sender, args);
             return true;
         }
@@ -66,14 +66,24 @@ public class PlugMan extends JavaPlugin {
             this.cHandler.pluginInfo(sender, args);
             return true;
         }
-        
+
         if ("test".equalsIgnoreCase(args[0])) {
             if (!sender.hasPermission("plugman.test")) {
                 noPerms(sender);
                 return true;
             }
-            
+
             this.cHandler.testPerms(sender, args);
+            return true;
+        }
+
+        if ("purge".equalsIgnoreCase(args[0])) {
+            if (!sender.hasPermission("plugman.purge")) {
+                noPerms(sender);
+                return true;
+            }
+
+            this.cHandler.purgePlugins(sender, args);
             return true;
         }
 
