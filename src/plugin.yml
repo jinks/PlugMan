@@ -7,7 +7,7 @@ commands:
   plugman:
     description: Manage Plugins Status.
     aliases: pm
-    usage: /plugman [help|list|purge]
+    usage: /plugman [help|list|vlist|purge]
            /plugman test [PermissionNode] [Player]
            /plugman [info|load|reload|enable|disable] [PluginName]
 permissions:
@@ -16,6 +16,7 @@ permissions:
     children:
       plugman.help: true
       plugman.list: true
+      plugman.vlist: true
       plugman.info: true
       plugman.test: true
       plugman.purge: true
@@ -28,6 +29,9 @@ permissions:
     default: op
   plugman.list:
     description: Allows use of the list command.
+    default: op
+  plugman.vlist:
+    description: Allows use of the vlist command.
     default: op
   plugman.info:
     description: Allows use of the info command.
