@@ -220,6 +220,14 @@ public class PlugManCommands {
             sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
+        
+        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
+                Bukkit.getPluginManager().enablePlugin(pl);
+            }
+            sender.sendMessage(pre + green + "All plugins enabled!");
+            return;
+        }
 
         String pl = args[1];
         if (args.length > 2) {
@@ -251,9 +259,16 @@ public class PlugManCommands {
             sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
+        
+        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
+                Bukkit.getPluginManager().disablePlugin(pl);
+            }
+            sender.sendMessage(pre + red + "All plugins disabled!");
+            return;
+        }
 
         String pl = args[1];
-
         if (args.length > 2) {
             for (int i = 2; i < args.length; i++) {
                 pl = pl + " " + args[i];
