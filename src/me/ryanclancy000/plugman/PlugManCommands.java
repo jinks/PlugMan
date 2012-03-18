@@ -185,7 +185,7 @@ public class PlugManCommands {
             return;
         }
 
-        if ("all".equalsIgnoreCase(args[1])) {
+        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
                 Bukkit.getPluginManager().disablePlugin(pl);
                 Bukkit.getPluginManager().enablePlugin(pl);
