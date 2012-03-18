@@ -42,6 +42,7 @@ public class PlugManCommands {
     public void helpList(CommandSender sender) {
         sender.sendMessage(pre + green + "Help:");
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
+        sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with versions.");
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
         sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
         sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins");
@@ -55,7 +56,28 @@ public class PlugManCommands {
     public void listPlugins(CommandSender sender, String[] args) {
 
         if (args.length > 1) {
-            sender.sendMessage(red + "Too many arguments");
+            sender.sendMessage(pre + red + "Too many arguments");
+            return;
+        }
+
+        StringBuilder pluginList = new StringBuilder();
+
+        for (Plugin pl : p.getServer().getPluginManager().getPlugins()) {
+            if (pluginList.length() > 0) {
+                pluginList.append(white + ", ");
+            }
+            pluginList.append(pl.isEnabled() ? green : red);
+            pluginList.append(pl.getDescription().getName());
+        }
+        sender.sendMessage(yellow + "Plugins: " + pluginList);
+
+    }
+    
+    // vList Command
+    public void vlistPlugins(CommandSender sender, String[] args) {
+
+        if (args.length > 1) {
+            sender.sendMessage(pre + red + "Too many arguments");
             return;
         }
 
