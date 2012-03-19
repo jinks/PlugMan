@@ -1,5 +1,6 @@
 package me.ryanclancy000.plugman;
 
+import java.io.IOException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,13 @@ public class PlugMan extends JavaPlugin {
     public void onEnable() {
         PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
+
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            getLogger().warning("Failed to enable Metrics tracking!");
+        }
     }
 
     @Override
@@ -56,13 +64,13 @@ public class PlugMan extends JavaPlugin {
             this.cHandler.listPlugins(sender, args);
             return true;
         }
-        
+
         if ("vlist".equalsIgnoreCase(args[0])) {
             if (!sender.hasPermission("plugman.vlist")) {
                 noPerms(sender);
                 return true;
             }
-            
+
             this.cHandler.vlistPlugins(sender, args);
             return true;
         }
