@@ -72,7 +72,7 @@ public class PlugManCommands {
         sender.sendMessage(yellow + "Plugins: " + pluginList);
 
     }
-    
+
     // vList Command
     public void vlistPlugins(CommandSender sender, String[] args) {
 
@@ -242,7 +242,7 @@ public class PlugManCommands {
             sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
-        
+
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
                 Bukkit.getPluginManager().enablePlugin(pl);
@@ -281,7 +281,7 @@ public class PlugManCommands {
             sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
-        
+
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
                 Bukkit.getPluginManager().disablePlugin(pl);
