@@ -1,6 +1,7 @@
 package me.ryanclancy000.plugman;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,7 +13,6 @@ public class PlugMan extends JavaPlugin {
     
     private final PlugManCommands cHandler = new PlugManCommands(this);
     public PluginDescriptionFile PDF;
-    List<String> aliases;
     
     @Override
     public void onDisable() {
@@ -22,11 +22,6 @@ public class PlugMan extends JavaPlugin {
     public void onEnable() {
         PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
-        
-        if (this.getConfig().getBoolean("use-pm-alias") == true) {
-            aliases.add("pm");
-            getCommand("plugman").setAliases(aliases);
-        }
         
         try {
             Metrics metrics = new Metrics(this);

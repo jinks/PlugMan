@@ -6,7 +6,6 @@ author: ryanclancy000
 commands:
   plugman:
     description: Manage Plugins Status.
-    aliases: pm
     usage: /plugman [help|list|vlist|purge]
            /plugman test [PermissionNode] [Player]
            /plugman [info|load|reload|enable|disable] [PluginName]

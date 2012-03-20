@@ -45,7 +45,7 @@ public class PlugManCommands {
         sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with versions.");
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
         sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
-        sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins");
+        sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins - careful.");
         sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all] - " + yellow + "Reloads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "enable [plugin|all] - " + yellow + "Enables a plugin.");
