@@ -1,6 +1,6 @@
 name: PlugMan
 main: me.ryanclancy000.plugman.PlugMan
-version: 1.6.5
+version: 1.6.6
 description: Plugin Manager for Bukkit
 author: ryanclancy000
 commands:
