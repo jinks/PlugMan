@@ -28,27 +28,16 @@ package me.ryanclancy000.plugman;
  * either expressed or implied, of anybody else.
  */
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 /**
  * <p>
@@ -371,11 +360,22 @@ public class Metrics {
      * *
      * 1200
      * ticks.
+     *
+     * @return
+     * True
+     * if
+     * statistics
+     * measuring
+     * is
+     * now
+     * running,
+     * otherwise
+     * false.
      */
-    public void start() {
+    public boolean start() {
         // Did we opt out?
         if (configuration.getBoolean("opt-out", false)) {
-            return;
+            return false;
         }
 
         // Begin hitting the server with glorious data
@@ -398,6 +398,8 @@ public class Metrics {
                 }
             }
         }, 0, PING_INTERVAL * 1200);
+
+        return true;
     }
 
     /**
