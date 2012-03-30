@@ -40,7 +40,7 @@ permissions:
     default: op
   plugman.purge:
     description: Allows use of the purge command.
-    default: op
+    default: false
   plugman.load:
     description: Allows use of the load command.
     default: op
