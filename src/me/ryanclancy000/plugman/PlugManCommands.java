@@ -1,6 +1,11 @@
 package me.ryanclancy000.plugman;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -108,6 +113,59 @@ public class PlugManCommands {
 
         Plugin targetPlugin = getPlugin(args[1]);
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
+    }
+
+    // Usage Command
+    public void usageCommand(CommandSender sender, String[] args) {
+
+        ArrayList<String> out = new ArrayList<String>();
+        ArrayList<String> parsedCommands = new ArrayList<String>();
+
+        String pl = args[1];
+        if (args.length > 2) {
+            for (int i = 2; i < args.length; i++) {
+                pl = pl + " " + args[i];
+            }
+        }
+
+        Plugin targetPlugin = getPlugin(pl);
+
+        Map commands = targetPlugin.getDescription().getCommands();
+
+        if (commands != null) {
+            Iterator commandsIt = commands.entrySet().iterator();
+            while (commandsIt.hasNext()) {
+                Entry thisEntry = (Entry) commandsIt.next();
+                if (thisEntry != null) {
+                    parsedCommands.add((String) thisEntry.getKey());
+                }
+            }
+        }
+        if (!parsedCommands.isEmpty()) {
+            StringBuilder commandsOut = new StringBuilder();
+            if (targetPlugin.isEnabled()) {
+                commandsOut.append(green);
+            } else {
+                commandsOut.append(red + "");
+            }
+            commandsOut.append(pre).append(green + "Command List: ");
+            for (int i = 0; i < parsedCommands.size(); i++) {
+                String thisCommand = parsedCommands.get(i);
+                if (commandsOut.length() + thisCommand.length() > 55) {
+                    sender.sendMessage(commandsOut.toString());
+                    commandsOut = new StringBuilder();
+                }
+                commandsOut.append(yellow + "\"").append(thisCommand).append("\"");
+            }
+            out.add(commandsOut.toString());
+        } else {
+            out.add(pre + red + "Plugin has no registered commands!");
+        }
+
+        for (String s : out) {
+            sender.sendMessage(s);
+        }
+
     }
 
     // Test Command
