@@ -117,6 +117,11 @@ public class PlugManCommands {
 
     // Usage Command
     public void usageCommand(CommandSender sender, String[] args) {
+        
+        if (args.length == 1) {
+            sender.sendMessage(pre + red + "Must specify a plugin!");
+            return;
+        }
 
         ArrayList<String> out = new ArrayList<String>();
         ArrayList<String> parsedCommands = new ArrayList<String>();
@@ -129,6 +134,11 @@ public class PlugManCommands {
         }
 
         Plugin targetPlugin = getPlugin(pl);
+        
+        if (targetPlugin == null) {
+            sender.sendMessage(pre + red + "Plugin not found!");
+            return;
+        }
 
         Map commands = targetPlugin.getDescription().getCommands();
 
