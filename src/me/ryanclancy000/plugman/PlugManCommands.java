@@ -3,7 +3,6 @@ package me.ryanclancy000.plugman;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.bukkit.Bukkit;
@@ -117,14 +116,11 @@ public class PlugManCommands {
 
     // Usage Command
     public void usageCommand(CommandSender sender, String[] args) {
-        
+
         if (args.length == 1) {
             sender.sendMessage(pre + red + "Must specify a plugin!");
             return;
         }
-
-        ArrayList<String> out = new ArrayList<String>();
-        ArrayList<String> parsedCommands = new ArrayList<String>();
 
         String pl = args[1];
         if (args.length > 2) {
@@ -134,12 +130,14 @@ public class PlugManCommands {
         }
 
         Plugin targetPlugin = getPlugin(pl);
-        
+
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + "Plugin not found!");
             return;
         }
 
+        ArrayList<String> out = new ArrayList<String>();
+        ArrayList<String> parsedCommands = new ArrayList<String>();
         Map commands = targetPlugin.getDescription().getCommands();
 
         if (commands != null) {
@@ -151,23 +149,31 @@ public class PlugManCommands {
                 }
             }
         }
+
         if (!parsedCommands.isEmpty()) {
+
             StringBuilder commandsOut = new StringBuilder();
-            if (targetPlugin.isEnabled()) {
-                commandsOut.append(green);
-            } else {
-                commandsOut.append(red + "");
-            }
             commandsOut.append(pre).append(green + "Command List: ");
+
             for (int i = 0; i < parsedCommands.size(); i++) {
+
                 String thisCommand = parsedCommands.get(i);
+
                 if (commandsOut.length() + thisCommand.length() > 55) {
                     sender.sendMessage(commandsOut.toString());
                     commandsOut = new StringBuilder();
                 }
-                commandsOut.append(yellow + "\"").append(thisCommand).append("\"");
+
+                if (parsedCommands.size() > 0) {
+                    commandsOut.append(yellow + "\"").append(thisCommand).append("\" ");
+                } else {
+                    commandsOut.append(yellow + "\"").append(thisCommand).append("\"");
+                }
+
             }
+
             out.add(commandsOut.toString());
+
         } else {
             out.add(pre + red + "Plugin has no registered commands!");
         }
