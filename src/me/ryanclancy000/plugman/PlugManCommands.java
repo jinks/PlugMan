@@ -106,12 +106,22 @@ public class PlugManCommands {
             return;
         }
 
+        String pl = args[1];
         if (args.length > 2) {
-            sender.sendMessage(pre + red + "Too many arguments!");
+            for (int i = 2; i < args.length; i++) {
+                pl = pl + " " + args[i];
+            }
         }
 
-        Plugin targetPlugin = getPlugin(args[1]);
+        Plugin targetPlugin = getPlugin(pl);
+        
+        if (targetPlugin == null) {
+            sender.sendMessage(pre + red + "Plugin not found!");
+            return;
+        }
+
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
+    
     }
 
     // Usage Command
@@ -187,6 +197,11 @@ public class PlugManCommands {
     // Test Command
     public void testPerms(CommandSender sender, String[] args) {
 
+        if (args.length == 1) {
+            sender.sendMessage(pre + red + "Must specify permission and player!");
+            return;
+        }
+        
         if (args.length == 2) {
             if (sender.hasPermission(args[1])) {
                 sender.sendMessage(pre + green + "You have permission for " + args[1]);
