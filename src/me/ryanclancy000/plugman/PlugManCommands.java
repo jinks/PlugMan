@@ -38,7 +38,7 @@ public class PlugManCommands {
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
-        sender.sendMessage(pre + green + "v" + p.PDF.getVersion() + white + " by " + green + "ryanclancy000");
+        sender.sendMessage(pre + green + "v" + p.PDF.getVersion() + yellow + " by " + green + "ryanclancy000");
         sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
     }
 
