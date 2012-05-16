@@ -17,14 +17,14 @@ import org.bukkit.plugin.UnknownDependencyException;
 public class PlugManCommands {
 
     public PlugMan p;
-    ChatColor yellow = ChatColor.YELLOW;
-    ChatColor green = ChatColor.GREEN;
-    ChatColor red = ChatColor.RED;
-    ChatColor white = ChatColor.WHITE;
-    String pre = yellow + "[PlugMan] ";
+    private ChatColor yellow = ChatColor.YELLOW;
+    private ChatColor green = ChatColor.GREEN;
+    private ChatColor red = ChatColor.RED;
+    private ChatColor white = ChatColor.WHITE;
+    private String pre = yellow + "[PlugMan] ";
 
     public PlugManCommands(PlugMan instance) {
-        p = instance;
+        this.p = instance;
     }
 
     public Plugin getPlugin(String parm) {
@@ -114,14 +114,14 @@ public class PlugManCommands {
         }
 
         Plugin targetPlugin = getPlugin(pl);
-        
+
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + "Plugin not found!");
             return;
         }
 
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
-    
+
     }
 
     // Usage Command
@@ -201,7 +201,7 @@ public class PlugManCommands {
             sender.sendMessage(pre + red + "Must specify permission and player!");
             return;
         }
-        
+
         if (args.length == 2) {
             if (sender.hasPermission(args[1])) {
                 sender.sendMessage(pre + green + "You have permission for " + args[1]);
