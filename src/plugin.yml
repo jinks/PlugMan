@@ -8,7 +8,7 @@ commands:
     description: Manage Plugins Status.
     usage: /plugman [help|list|vlist|purge]
            /plugman test [PermissionNode] [Player]
-           /plugman [info|usage|load|reload|enable|disable] [PluginName]
+           /plugman [info|usage|load|unload|reload|enable|disable] [PluginName]
 permissions:
   plugman.admin:
     description: Allows use of all PlugMan commands.
@@ -21,6 +21,7 @@ permissions:
       plugman.test: true
       plugman.purge: true
       plugman.load: true
+      plugman.unload: true
       plugman.reload: true
       plugman.enable: true
       plugman.disable: true
@@ -47,6 +48,9 @@ permissions:
     default: false
   plugman.load:
     description: Allows use of the load command.
+    default: op
+  plugman.unload:
+    description: Allows use of the unload command.
     default: op
   plugman.reload:
     description: Allows use of the reload command.
