@@ -12,6 +12,7 @@ public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
     public PluginDescriptionFile PDF;
+    public Metrics metrics;
     public List skipPlugins;
 
     @Override
@@ -22,7 +23,7 @@ public class PlugMan extends JavaPlugin {
     public void onEnable() {
         PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
-        startMetrics();
+        metrics.start();
         loadConfig();
     }
 
@@ -170,15 +171,6 @@ public class PlugMan extends JavaPlugin {
 
     public void noPerms(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "You do not have permission for that command...");
-    }
-
-    public void startMetrics() {
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-            getLogger().warning("Failed to enable Metrics tracking!");
-        }
     }
 
     public void loadConfig() {
