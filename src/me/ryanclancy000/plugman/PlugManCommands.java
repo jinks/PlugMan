@@ -17,11 +17,11 @@ import org.bukkit.plugin.*;
 public class PlugManCommands {
 
     public PlugMan plugin;
-    private ChatColor yellow = ChatColor.YELLOW;
-    private ChatColor green = ChatColor.GREEN;
-    private ChatColor red = ChatColor.RED;
-    private ChatColor white = ChatColor.WHITE;
-    private String pre = yellow + "[PlugMan] ";
+    public ChatColor red = ChatColor.RED;
+    public ChatColor white = ChatColor.WHITE;
+    public ChatColor green = ChatColor.GREEN;
+    public ChatColor yellow = ChatColor.YELLOW;
+    public String pre = yellow + "[PlugMan] ";
 
     public PlugManCommands(PlugMan instance) {
         this.plugin = instance;
