@@ -1,7 +1,7 @@
 package me.ryanclancy000.plugman;
 
-import java.io.IOException;
 import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,6 @@ public class PlugMan extends JavaPlugin {
 
     private final PlugManCommands cHandler = new PlugManCommands(this);
     public PluginDescriptionFile PDF;
-    public Metrics metrics;
     public List skipPlugins;
 
     @Override
@@ -23,7 +22,7 @@ public class PlugMan extends JavaPlugin {
     public void onEnable() {
         PDF = this.getDescription();
         getCommand("plugman").setExecutor(this);
-        metrics.start();
+        startMetrics();
         loadConfig();
     }
 
@@ -173,6 +172,15 @@ public class PlugMan extends JavaPlugin {
         sender.sendMessage(ChatColor.RED + "You do not have permission for that command...");
     }
 
+    public void startMetrics() {
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (Exception e) {
+            log("Failed to load Metrics tracking!");
+        }
+    }
+
     public void loadConfig() {
         try {
             this.getConfig().options().copyDefaults(true);
@@ -180,9 +188,10 @@ public class PlugMan extends JavaPlugin {
             this.saveConfig();
         } catch (Exception e) {
             log("Failed to load config, disabling PlugMan");
+            Bukkit.getPluginManager().disablePlugin(this);
         }
     }
-    
+
     public void log(String s) {
         this.getLogger().info(s);
     }
