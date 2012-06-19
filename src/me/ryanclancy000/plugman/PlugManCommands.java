@@ -124,6 +124,37 @@ public class PlugManCommands {
         sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
 
     }
+    
+    // Status Command
+    public void pluginStatus(CommandSender sender, String[] args) {
+                
+        if (args.length == 1) {
+            sender.sendMessage(pre + red + "Must specify a plugin!");
+            return;
+        }
+        
+        String pl = args[1];
+        if (args.length > 2) {
+            for (int i = 2; i < args.length; i++) {
+                pl = pl + " " + args[i];
+            }
+        }
+        
+        Plugin targetPlugin = getPlugin(pl);
+        
+        if (targetPlugin == null) {
+            sender.sendMessage(pre + red + "Plugin not found!");
+            return;
+        }
+        
+        if (targetPlugin.isEnabled()) {
+            sender.sendMessage(pre + green + targetPlugin.getName() + " is enabled!");
+            return;
+        } else {
+            sender.sendMessage(pre + green + targetPlugin.getName() + " is disabled!");
+        }
+        
+    }
 
     // Usage Command
     public void usageCommand(CommandSender sender, String[] args) {

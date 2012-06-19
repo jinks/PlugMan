@@ -84,6 +84,16 @@ public class PlugMan extends JavaPlugin {
             this.cHandler.pluginInfo(sender, args);
             return true;
         }
+        
+        // Status Command
+        if ("status".equalsIgnoreCase(args[0])) {
+            if (!sender.hasPermission("plugman.status")) {
+                noPerms(sender);
+                return true;
+            }
+            this.cHandler.pluginStatus(sender, args);
+            return true;
+        }
 
         // Usage Command
         if ("usage".equalsIgnoreCase(args[0])) {
