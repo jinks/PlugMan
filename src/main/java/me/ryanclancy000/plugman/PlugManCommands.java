@@ -48,6 +48,7 @@ public class PlugManCommands {
         sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
         sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with versions.");
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
+        sender.sendMessage(yellow + "/plugman " + green + "status [plugin] - " + yellow + "Checks the status of a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
         sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins - careful.");
         sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
@@ -264,6 +265,11 @@ public class PlugManCommands {
 
     // Purge Command
     public void purgePlugins(CommandSender sender, String[] args) {
+        
+        if (sender instanceof Player) {
+            sender.sendMessage(pre + red + "This command can only be used from console!");
+            return;
+        }
 
         if (args.length != 1) {
             sender.sendMessage(pre + red + "Too many arguments!");
