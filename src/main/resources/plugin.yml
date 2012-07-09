@@ -6,7 +6,7 @@ author: ryanclancy000
 commands:
   plugman:
     description: Manage Plugins Status.
-    usage: /plugman [help|list|vlist|purge]
+    usage: /plugman [help|list|vlist]
            /plugman test [PermissionNode] [Player]
            /plugman [info|usage|status|load|unload|reload|enable|disable] [PluginName]
 permissions:
@@ -20,7 +20,6 @@ permissions:
       plugman.usage: true
       plugman.status: true
       plugman.test: true
-      plugman.purge: true
       plugman.load: true
       plugman.unload: true
       plugman.reload: true
@@ -47,9 +46,6 @@ permissions:
   plugman.test:
     description: Allowed use of the test command.
     default: op
-  plugman.purge:
-    description: Allows use of the purge command.
-    default: false
   plugman.load:
     description: Allows use of the load command.
     default: op
