@@ -113,10 +113,8 @@ public class PlugManCommands implements CommandExecutor {
                 }
                 return true;
             }
-
             plugin.util.noPerms(sender);
             return true;
-
         }
 
         // Reload Command
@@ -148,7 +146,9 @@ public class PlugManCommands implements CommandExecutor {
             plugin.util.noPerms(sender);
             return true;
         }
-
-        return false;
+        
+        // If args aren't valid, show help.
+        plugin.util.helpList(sender);
+        return true;
     }
 }
