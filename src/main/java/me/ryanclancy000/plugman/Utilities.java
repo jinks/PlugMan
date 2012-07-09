@@ -50,7 +50,6 @@ public class Utilities {
         sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
         sender.sendMessage(yellow + "/plugman " + green + "status [plugin] - " + yellow + "Checks the status of a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
-        sender.sendMessage(yellow + "/plugman " + green + "purge - " + yellow + "Disables and removes all plugins - careful.");
         sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "unload [plugin] - " + yellow + "Unloads a plugin.");
         sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all] - " + yellow + "Reloads a plugin.");
