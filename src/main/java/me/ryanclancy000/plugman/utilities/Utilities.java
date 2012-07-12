@@ -1,8 +1,13 @@
-package me.ryanclancy000.plugman;
+package me.ryanclancy000.plugman.utilities;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import me.ryanclancy000.plugman.PlugMan;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,25 +16,32 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.plugin.*;
+import org.bukkit.plugin.InvalidDescriptionException;
+import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredListener;
+import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.UnknownDependencyException;
 
 public class Utilities {
 
     private final PlugMan plugin;
     //
-    public final ChatColor red = ChatColor.RED;
-    public final ChatColor white = ChatColor.WHITE;
-    public final ChatColor green = ChatColor.GREEN;
-    public final ChatColor yellow = ChatColor.YELLOW;
-    public final String pre = yellow + "[PlugMan] ";
+    public static final ChatColor red = ChatColor.RED;
+    public static final ChatColor white = ChatColor.WHITE;
+    public static final ChatColor green = ChatColor.GREEN;
+    public static final ChatColor yellow = ChatColor.YELLOW;
+    public static final String pre = yellow + "[PlugMan] ";
 
     public Utilities(PlugMan plugin) {
         this.plugin = plugin;
     }
 
-    public Plugin getPlugin(String parm) {
+    public Plugin getPlugin(String plugin) {
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (pl.getDescription().getName().equalsIgnoreCase(parm)) {
+            if (pl.getDescription().getName().equalsIgnoreCase(plugin)) {
                 return pl;
             }
         }
@@ -38,7 +50,8 @@ public class Utilities {
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
-        sender.sendMessage(pre + green + "v" + plugin.PDF.getVersion() + yellow + " by " + green + "ryanclancy000");
+        PluginDescriptionFile PDF = plugin.getDescription();
+        sender.sendMessage(pre + green + "v" + PDF.getVersion() + yellow + " by " + green + "ryanclancy000");
         sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
     }
 
@@ -69,7 +82,7 @@ public class Utilities {
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (pluginList.length() > 0) {
-                pluginList.append(white + ", ");
+                pluginList.append(white).append(", ");
             }
             pluginList.append(pl.isEnabled() ? green : red);
             pluginList.append(pl.getDescription().getName());
@@ -90,7 +103,7 @@ public class Utilities {
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (pluginList.length() > 0) {
-                pluginList.append(white + ", ");
+                pluginList.append(white).append(", ");
             }
             pluginList.append(pl.isEnabled() ? green : red);
             pluginList.append(pl.getDescription().getFullName());
@@ -149,7 +162,6 @@ public class Utilities {
 
         if (targetPlugin.isEnabled()) {
             sender.sendMessage(pre + green + targetPlugin.getName() + " is enabled!");
-            return;
         } else {
             sender.sendMessage(pre + green + targetPlugin.getName() + " is disabled!");
         }
@@ -236,29 +248,24 @@ public class Utilities {
 
         if (args.length == 2) {
             if (sender.hasPermission(args[1])) {
-                sender.sendMessage(pre + green + "You have permission for " + args[1]);
+                sender.sendMessage(pre + green + "You have permission for '" + args[1] + "'.");
             } else {
-                sender.sendMessage(pre + red + "You do not have permission for " + args[1]);
+                sender.sendMessage(pre + red + "You do not have permission for '" + args[1] + "'.");
             }
         }
 
         if (args.length == 3) {
-
-            try {
-                Player target = Bukkit.getPlayer(args[2]);
-                if (target.isOnline()) {
-                    if (target.hasPermission(args[1])) {
-                        sender.sendMessage(pre + green + target.getName() + " has permission for " + args[1]);
-                    } else {
-                        sender.sendMessage(pre + red + target.getName() + " does not have permission for " + args[1]);
-                    }
+            Player target = Bukkit.getPlayer(args[2]);
+            if (target == null) {
+                sender.sendMessage(pre + red + "Player not found!");
+            } else {
+                if (target.hasPermission(args[1])) {
+                    sender.sendMessage(pre + green + target.getName() + " has permission for " + args[1]);
+                } else {
+                    sender.sendMessage(pre + red + target.getName() + " does not have permission for " + args[1]);
                 }
-
-            } catch (Exception e) {
-                sender.sendMessage(pre + red + "Player not online!");
             }
         }
-
 
     }
 
@@ -282,7 +289,7 @@ public class Utilities {
 
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
-                sender.sendMessage(pre + red + "Plugin already loaded and is enabled!");
+                sender.sendMessage(pre + red + "Plugin already loaded and enabled!");
                 return;
             }
             sender.sendMessage(pre + red + "Plugin already loaded, but is disabled!");
@@ -292,14 +299,14 @@ public class Utilities {
         if (pluginFile.isFile()) {
             try {
                 Bukkit.getPluginManager().loadPlugin(pluginFile);
-                Bukkit.getPluginManager().enablePlugin(getPlugin(pl));
-                sender.sendMessage(pre + green + getPlugin(pl) + " Loaded and Enabled!");
+                Bukkit.getPluginManager().enablePlugin(targetPlugin);
+                sender.sendMessage(pre + green + getPlugin(pl) + " loaded and enabled!");
             } catch (UnknownDependencyException e) {
-                sender.sendMessage(pre + red + "File exists, but is not a plugin file.");
+                sender.sendMessage(pre + red + "File exists, but is missing a dependency!");
             } catch (InvalidPluginException e) {
-                sender.sendMessage(pre + red + "File exists, but is not a plugin file.");
+                sender.sendMessage(pre + red + "File exists, but isn't a plugin file!");
             } catch (InvalidDescriptionException e) {
-                sender.sendMessage(pre + red + "Plugin exists, but is invalid.");
+                sender.sendMessage(pre + red + "Plugin exists, but has an invalid description!");
             }
         } else {
             sender.sendMessage(pre + red + "File doesn't exist!");
@@ -412,7 +419,9 @@ public class Utilities {
 
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                if (!(plugin.skipPlugins.contains(pl.getDescription().getName()))) {
+                if (plugin.skipPlugins.contains(pl.getName()) || plugin.skipPlugins == null) {
+                    return;
+                } else {
                     Bukkit.getPluginManager().disablePlugin(pl);
                     Bukkit.getPluginManager().enablePlugin(pl);
                 }
@@ -517,7 +526,7 @@ public class Utilities {
         sender.sendMessage(pre + red + targetPlugin.getName() + " Disabled!");
 
     }
-    
+
     public void noPerms(CommandSender sender) {
         sender.sendMessage(ChatColor.RED + "You do not have permission for that command...");
     }
