@@ -1,5 +1,6 @@
 package me.ryanclancy000.plugman;
 
+import me.ryanclancy000.plugman.utilities.Utilities;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -98,7 +99,7 @@ public class PlugManCommands implements CommandExecutor {
                 try {
                     plugin.util.unloadPlugin(sender, args);
                 } catch (Exception e) {
-                    sender.sendMessage(plugin.util.pre + plugin.util.red + "Failed to unload plugin!");
+                    sender.sendMessage(Utilities.pre + Utilities.red + "Failed to unload plugin!");
                 }
             } else {
                 plugin.util.noPerms(sender);
