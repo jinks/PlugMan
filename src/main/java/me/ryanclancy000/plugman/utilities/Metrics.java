@@ -25,7 +25,7 @@
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
  */
-package me.ryanclancy000.plugman;
+package me.ryanclancy000.plugman.utilities;
 
 import java.io.*;
 import java.net.Proxy;
@@ -41,13 +41,13 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 /**
- * 
+ *
  * The metrics class obtains data about a plugin and submits statistics about it to the metrics backend.
- * 
+ *
  * Public methods provided by this class:
  * Graph createGraph(String name);
  * void addCustomData(Metrics.Plotter plotter);
- * 
+ *
  */
 public class Metrics {
 
