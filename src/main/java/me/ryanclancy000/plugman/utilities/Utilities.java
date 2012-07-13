@@ -19,7 +19,6 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.SimplePluginManager;
@@ -34,6 +33,10 @@ public class Utilities {
     public static final ChatColor green = ChatColor.GREEN;
     public static final ChatColor yellow = ChatColor.YELLOW;
     public static final String pre = yellow + "[PlugMan] ";
+    private static final String tooFew = red + "Not enough arguments!";
+    private static final String tooMany = red + "Too many arguments!";
+    private static final String specifyPlugin = red + "Must specify a plugin!";
+    private static final String pluginNotFound = red + "Plugin not found!";
 
     public Utilities(PlugMan plugin) {
         this.plugin = plugin;
@@ -73,7 +76,7 @@ public class Utilities {
     public void listPlugins(CommandSender sender, String[] args) {
 
         if (args.length > 1) {
-            sender.sendMessage(pre + red + "Too many arguments");
+            sender.sendMessage(pre + red + tooMany);
             return;
         }
 
@@ -94,7 +97,7 @@ public class Utilities {
     public void vlistPlugins(CommandSender sender, String[] args) {
 
         if (args.length > 1) {
-            sender.sendMessage(pre + red + "Too many arguments");
+            sender.sendMessage(pre + red + tooMany);
             return;
         }
 
@@ -115,7 +118,7 @@ public class Utilities {
     public void pluginInfo(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -129,7 +132,7 @@ public class Utilities {
         Plugin targetPlugin = getPlugin(pl);
 
         if (targetPlugin == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -141,7 +144,7 @@ public class Utilities {
     public void pluginStatus(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -155,7 +158,7 @@ public class Utilities {
         Plugin targetPlugin = getPlugin(pl);
 
         if (targetPlugin == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -171,7 +174,7 @@ public class Utilities {
     public void usageCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -185,7 +188,7 @@ public class Utilities {
         Plugin targetPlugin = getPlugin(pl);
 
         if (targetPlugin == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -272,7 +275,7 @@ public class Utilities {
     public void loadPlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -317,7 +320,7 @@ public class Utilities {
     public void unloadPlugin(CommandSender sender, String[] args) throws NoSuchFieldException, IllegalAccessException {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -329,7 +332,7 @@ public class Utilities {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -412,7 +415,7 @@ public class Utilities {
     public void reloadPlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -437,7 +440,7 @@ public class Utilities {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -452,7 +455,7 @@ public class Utilities {
     public void enablePlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -472,7 +475,7 @@ public class Utilities {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -491,7 +494,7 @@ public class Utilities {
     public void disablePlugin(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
-            sender.sendMessage(pre + red + "Must specify a plugin!");
+            sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
 
@@ -511,7 +514,7 @@ public class Utilities {
         }
 
         if (getPlugin(pl) == null) {
-            sender.sendMessage(pre + red + "Plugin not found!");
+            sender.sendMessage(pre + red + pluginNotFound);
             return;
         }
 
@@ -527,6 +530,6 @@ public class Utilities {
     }
 
     public void noPerms(CommandSender sender) {
-        sender.sendMessage(ChatColor.RED + "You do not have permission for that command...");
+        sender.sendMessage(red + "You do not have permission for that command...");
     }
 }
