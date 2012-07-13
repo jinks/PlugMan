@@ -79,16 +79,24 @@ public class Utilities {
             return;
         }
 
-        StringBuilder pluginList = new StringBuilder();
+        StringBuilder list = new StringBuilder();
+        
+        List<String> pluginList = new ArrayList<String>();
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (pluginList.length() > 0) {
-                pluginList.append(white).append(", ");
-            }
-            pluginList.append(pl.isEnabled() ? green : red);
-            pluginList.append(pl.getDescription().getName());
+            String plugin = "";
+            plugin += pl.isEnabled() ? green : red;
+            plugin += pl.getDescription().getName();
+            pluginList.add(plugin);
         }
-        sender.sendMessage(yellow + "Plugins: " + pluginList);
+        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+        for (String plugin : pluginList) {
+			if(list.length() > 0) {
+				list.append(white + ", ");
+			}
+			list.append(plugin);
+        }
+        sender.sendMessage(yellow + "Plugins: " + list);
 
     }
 
@@ -100,16 +108,24 @@ public class Utilities {
             return;
         }
 
-        StringBuilder pluginList = new StringBuilder();
+        StringBuilder list = new StringBuilder();
+        
+        List<String> pluginList = new ArrayList<String>();
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (pluginList.length() > 0) {
-                pluginList.append(white).append(", ");
-            }
-            pluginList.append(pl.isEnabled() ? green : red);
-            pluginList.append(pl.getDescription().getFullName());
+            String plugin = "";
+            plugin += pl.isEnabled() ? green : red;
+            plugin += pl.getDescription().getFullName();
+            pluginList.add(plugin);
         }
-        sender.sendMessage(yellow + "Plugins: " + pluginList);
+        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+        for (String plugin : pluginList) {
+			if(list.length() > 0) {
+				list.append(white + ", ");
+			}
+			list.append(plugin);
+        }
+        sender.sendMessage(yellow + "Plugins: " + list);
 
     }
 
