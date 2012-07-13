@@ -39,7 +39,7 @@ public class Utilities {
         this.plugin = plugin;
     }
 
-    public Plugin getPlugin(String plugin) {
+    private Plugin getPlugin(String plugin) {
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             if (pl.getDescription().getName().equalsIgnoreCase(plugin)) {
                 return pl;
@@ -50,8 +50,7 @@ public class Utilities {
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
-        PluginDescriptionFile PDF = plugin.getDescription();
-        sender.sendMessage(pre + green + "v" + PDF.getVersion() + yellow + " by " + green + "ryanclancy000");
+        sender.sendMessage(pre + green + "v" + plugin.getDescription().getVersion() + yellow + " by " + green + "ryanclancy000");
         sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
     }
 
