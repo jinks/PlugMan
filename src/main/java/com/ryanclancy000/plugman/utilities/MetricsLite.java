@@ -25,7 +25,7 @@
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
  */
-package me.ryanclancy000.plugman.utilities;
+package com.ryanclancy000.plugman.utilities;
 
 import java.io.BufferedReader;
 import java.io.File;

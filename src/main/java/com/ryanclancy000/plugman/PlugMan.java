@@ -1,10 +1,10 @@
-package me.ryanclancy000.plugman;
+package com.ryanclancy000.plugman;
 
+import com.ryanclancy000.plugman.utilities.MetricsLite;
+import com.ryanclancy000.plugman.utilities.Utilities;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import me.ryanclancy000.plugman.utilities.MetricsLite;
-import me.ryanclancy000.plugman.utilities.Utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

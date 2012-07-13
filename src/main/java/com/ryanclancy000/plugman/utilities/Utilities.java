@@ -1,5 +1,6 @@
-package me.ryanclancy000.plugman.utilities;
+package com.ryanclancy000.plugman.utilities;
 
+import com.ryanclancy000.plugman.PlugMan;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import me.ryanclancy000.plugman.PlugMan;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,7 +33,6 @@ public class Utilities {
     public static final ChatColor green = ChatColor.GREEN;
     public static final ChatColor yellow = ChatColor.YELLOW;
     public static final String pre = yellow + "[PlugMan] ";
-    private static final String tooFew = red + "Not enough arguments!";
     private static final String tooMany = red + "Too many arguments!";
     private static final String specifyPlugin = red + "Must specify a plugin!";
     private static final String pluginNotFound = red + "Plugin not found!";

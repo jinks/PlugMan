@@ -1,6 +1,6 @@
-package me.ryanclancy000.plugman;
+package com.ryanclancy000.plugman;
 
-import me.ryanclancy000.plugman.utilities.Utilities;
+import com.ryanclancy000.plugman.utilities.Utilities;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
