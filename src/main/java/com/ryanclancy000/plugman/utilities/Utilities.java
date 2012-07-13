@@ -50,6 +50,16 @@ public class Utilities {
         }
         return null;
     }
+    
+    private String consolidateArgs(String[] args) {
+        String pl = args[1];
+        if (args.length > 2) {
+            for (int i = 2; i < args.length; i++) {
+                pl = pl + " " + args[i];
+            }
+        }
+        return pl;
+    }
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
@@ -109,7 +119,6 @@ public class Utilities {
         }
 
         StringBuilder list = new StringBuilder();
-        
         List<String> pluginList = new ArrayList<String>();
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
@@ -136,15 +145,8 @@ public class Utilities {
             sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
-
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
+        
+        Plugin targetPlugin = getPlugin(consolidateArgs(args));
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
@@ -163,14 +165,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
+        Plugin targetPlugin = getPlugin(consolidateArgs(args));
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
@@ -193,14 +188,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
-
-        Plugin targetPlugin = getPlugin(pl);
+        Plugin targetPlugin = getPlugin(consolidateArgs(args));
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
@@ -294,13 +282,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
-
+        String pl = consolidateArgs(args);
         Plugin targetPlugin = getPlugin(pl);
         File pluginFile = new File(new File("plugins"), pl + ".jar");
 
@@ -339,12 +321,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
+        String pl = consolidateArgs(args);
 
         if (getPlugin(pl) == null) {
             sender.sendMessage(pre + red + pluginNotFound);
@@ -447,12 +424,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
+        String pl = consolidateArgs(args);
 
         if (getPlugin(pl) == null) {
             sender.sendMessage(pre + red + pluginNotFound);
@@ -482,13 +454,8 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
-
+        String pl = consolidateArgs(args);
+        
         if (getPlugin(pl) == null) {
             sender.sendMessage(pre + red + pluginNotFound);
             return;
@@ -521,12 +488,7 @@ public class Utilities {
             return;
         }
 
-        String pl = args[1];
-        if (args.length > 2) {
-            for (int i = 2; i < args.length; i++) {
-                pl = pl + " " + args[i];
-            }
-        }
+        String pl = consolidateArgs(args);
 
         if (getPlugin(pl) == null) {
             sender.sendMessage(pre + red + pluginNotFound);
