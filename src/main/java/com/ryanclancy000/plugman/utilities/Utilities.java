@@ -4,6 +4,7 @@ import com.ryanclancy000.plugman.PlugMan;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -80,23 +81,22 @@ public class Utilities {
         }
 
         StringBuilder list = new StringBuilder();
-        
         List<String> pluginList = new ArrayList<String>();
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            String plugin = "";
-            plugin += pl.isEnabled() ? green : red;
-            plugin += pl.getDescription().getName();
-            pluginList.add(plugin);
+            String plName = "";
+            plName += pl.isEnabled() ? green : red;
+            plName += pl.getDescription().getName();
+            pluginList.add(plName);
         }
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-        for (String plugin : pluginList) {
+        for (String plName : pluginList) {
 			if(list.length() > 0) {
 				list.append(white + ", ");
 			}
-			list.append(plugin);
+			list.append(plName);
         }
-        sender.sendMessage(yellow + "Plugins: " + list);
+        sender.sendMessage(pre + yellow + "Plugins: " + list);
 
     }
 
@@ -113,19 +113,19 @@ public class Utilities {
         List<String> pluginList = new ArrayList<String>();
 
         for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            String plugin = "";
-            plugin += pl.isEnabled() ? green : red;
-            plugin += pl.getDescription().getFullName();
-            pluginList.add(plugin);
+            String plName = "";
+            plName += pl.isEnabled() ? green : red;
+            plName += pl.getDescription().getFullName();
+            pluginList.add(plName);
         }
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-        for (String plugin : pluginList) {
+        for (String plName : pluginList) {
 			if(list.length() > 0) {
 				list.append(white + ", ");
 			}
-			list.append(plugin);
+			list.append(plName);
         }
-        sender.sendMessage(yellow + "Plugins: " + list);
+        sender.sendMessage(pre + yellow + "Plugins: " + list);
 
     }
 
