@@ -2,7 +2,7 @@ package me.ryanclancy000.plugman;
 
 import java.util.List;
 import java.util.logging.Level;
-import me.ryanclancy000.plugman.utilities.Metrics;
+import me.ryanclancy000.plugman.utilities.MetricsLite;
 import me.ryanclancy000.plugman.utilities.Utilities;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,7 +20,7 @@ public class PlugMan extends JavaPlugin {
 
     public void startMetrics() {
         try {
-            Metrics metrics = new Metrics(this);
+            MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (Exception e) {
             this.getLogger().log(Level.SEVERE, "Failed to load Metrics tracking!{0}", e);

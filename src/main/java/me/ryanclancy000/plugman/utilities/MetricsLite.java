@@ -37,11 +37,6 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
@@ -50,16 +45,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-/**
- *
- * The metrics class obtains data about a plugin and submits statistics about it to the metrics backend.
- *
- * Public methods provided by this class:
- * Graph createGraph(String name);
- * void addCustomData(Metrics.Plotter plotter);
- *
- */
-public class Metrics {
+public class MetricsLite {
 
     /**
      * The current revision number
@@ -78,26 +64,13 @@ public class Metrics {
      */
     private static final String CONFIG_FILE = "plugins/PluginMetrics/config.yml";
     /**
-     * The separator to use for custom data. This MUST NOT change unless you are hosting your own
-     * version of metrics and want to change it.
-     */
-    private static final String CUSTOM_DATA_SEPARATOR = "~~";
-    /**
      * Interval of time to ping (in minutes)
      */
-    private static final int PING_INTERVAL = 10;
+    private final static int PING_INTERVAL = 10;
     /**
      * The plugin this metrics submits for
      */
     private final Plugin plugin;
-    /**
-     * All of the custom graphs to submit to metrics
-     */
-    private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
-    /**
-     * The default graph, used for addCustomData when you don't want a specific graph
-     */
-    private final Graph defaultGraph = new Graph("Default");
     /**
      * The plugin configuration file
      */
@@ -119,7 +92,7 @@ public class Metrics {
      */
     private volatile int taskId = -1;
 
-    public Metrics(final Plugin plugin) throws IOException {
+    public MetricsLite(Plugin plugin) throws IOException {
         if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
         }
@@ -142,58 +115,6 @@ public class Metrics {
 
         // Load the guid then
         guid = configuration.getString("guid");
-    }
-
-    /**
-     * Construct and create a Graph that can be used to separate specific plotters to their own graphs
-     * on the metrics website. Plotters can be added to the graph object returned.
-     *
-     * @param name
-     * @return Graph object created. Will never return NULL under normal circumstances unless bad parameters are given
-     */
-    public Graph createGraph(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("Graph name cannot be null");
-        }
-
-        // Construct the graph object
-        final Graph graph = new Graph(name);
-
-        // Now we can add our graph
-        graphs.add(graph);
-
-        // and return back
-        return graph;
-    }
-
-    /**
-     * Add a Graph object to Metrics that represents data for the plugin that should be sent to the backend
-     *
-     * @param graph
-     */
-    public void addGraph(final Graph graph) {
-        if (graph == null) {
-            throw new IllegalArgumentException("Graph cannot be null");
-        }
-
-        graphs.add(graph);
-    }
-
-    /**
-     * Adds a custom data plotter to the default graph
-     *
-     * @param plotter
-     */
-    public void addCustomData(final Plotter plotter) {
-        if (plotter == null) {
-            throw new IllegalArgumentException("Plotter cannot be null");
-        }
-
-        // Add the plotter to the graph o/
-        defaultGraph.addPlotter(plotter);
-
-        // Ensure the default graph is included in the submitted graphs
-        graphs.add(defaultGraph);
     }
 
     /**
@@ -228,10 +149,6 @@ public class Metrics {
                             if (isOptOut() && taskId > 0) {
                                 plugin.getServer().getScheduler().cancelTask(taskId);
                                 taskId = -1;
-                                // Tell all plotters to stop gathering information.
-                                for (Graph graph : graphs) {
-                                    graph.onOptOut();
-                                }
                             }
                         }
 
@@ -320,7 +237,7 @@ public class Metrics {
     /**
      * Generic method that posts a plugin to the metrics website
      */
-    private void postPlugin(final boolean isPing) throws IOException {
+    private void postPlugin(boolean isPing) throws IOException {
         // The plugin's description file containg all of the plugin data such as name, version, author, etc
         final PluginDescriptionFile description = plugin.getDescription();
 
@@ -335,30 +252,6 @@ public class Metrics {
         // If we're pinging, append it
         if (isPing) {
             encodeDataPair(data, "ping", "true");
-        }
-
-        // Acquire a lock on the graphs, which lets us make the assumption we also lock everything
-        // inside of the graph (e.g plotters)
-        synchronized (graphs) {
-            final Iterator<Graph> iter = graphs.iterator();
-
-            while (iter.hasNext()) {
-                final Graph graph = iter.next();
-
-                for (Plotter plotter : graph.getPlotters()) {
-                    // The key name to send to the metrics server
-                    // The format is C-GRAPHNAME-PLOTTERNAME where separator - is defined at the top
-                    // Legacy (R4) submitters use the format Custom%s, or CustomPLOTTERNAME
-                    final String key = String.format("C%s%s%s%s", CUSTOM_DATA_SEPARATOR, graph.getName(), CUSTOM_DATA_SEPARATOR, plotter.getColumnName());
-
-                    // The value to send, which for the foreseeable future is just the string
-                    // value of plotter.getValue()
-                    final String value = Integer.toString(plotter.getValue());
-
-                    // Add it to the http post data :)
-                    encodeDataPair(data, key, value);
-                }
-            }
         }
 
         // Create the url
@@ -392,22 +285,8 @@ public class Metrics {
 
         if (response == null || response.startsWith("ERR")) {
             throw new IOException(response); //Throw the exception
-        } else {
-            // Is this the first update this hour?
-            if (response.contains("OK This is your first update this hour")) {
-                synchronized (graphs) {
-                    final Iterator<Graph> iter = graphs.iterator();
-
-                    while (iter.hasNext()) {
-                        final Graph graph = iter.next();
-
-                        for (Plotter plotter : graph.getPlotters()) {
-                            plotter.reset();
-                        }
-                    }
-                }
-            }
         }
+        //if (response.startsWith("OK")) - We should get "OK" followed by an optional description if everything goes right
     }
 
     /**
@@ -448,148 +327,7 @@ public class Metrics {
      * @param text
      * @return
      */
-    private static String encode(final String text) throws UnsupportedEncodingException {
+    private static String encode(String text) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, "UTF-8");
-    }
-
-    /**
-     * Represents a custom graph on the website
-     */
-    public static class Graph {
-
-        /**
-         * The graph's name, alphanumeric and spaces only :)
-         * If it does not comply to the above when submitted, it is rejected
-         */
-        private final String name;
-        /**
-         * The set of plotters that are contained within this graph
-         */
-        private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
-
-        private Graph(final String name) {
-            this.name = name;
-        }
-
-        /**
-         * Gets the graph's name
-         *
-         * @return
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Add a plotter to the graph, which will be used to plot entries
-         *
-         * @param plotter
-         */
-        public void addPlotter(final Plotter plotter) {
-            plotters.add(plotter);
-        }
-
-        /**
-         * Remove a plotter from the graph
-         *
-         * @param plotter
-         */
-        public void removePlotter(final Plotter plotter) {
-            plotters.remove(plotter);
-        }
-
-        /**
-         * Gets an <b>unmodifiable</b> set of the plotter objects in the graph
-         *
-         * @return
-         */
-        public Set<Plotter> getPlotters() {
-            return Collections.unmodifiableSet(plotters);
-        }
-
-        @Override
-        public int hashCode() {
-            return name.hashCode();
-        }
-
-        @Override
-        public boolean equals(final Object object) {
-            if (!(object instanceof Graph)) {
-                return false;
-            }
-
-            final Graph graph = (Graph) object;
-            return graph.name.equals(name);
-        }
-
-        /**
-         * Called when the server owner decides to opt-out of Metrics while the server is running.
-         */
-        protected void onOptOut() {
-        }
-    }
-
-    /**
-     * Interface used to collect custom data for a plugin
-     */
-    public static abstract class Plotter {
-
-        /**
-         * The plot's name
-         */
-        private final String name;
-
-        /**
-         * Construct a plotter with the default plot name
-         */
-        public Plotter() {
-            this("Default");
-        }
-
-        /**
-         * Construct a plotter with a specific plot name
-         *
-         * @param name
-         */
-        public Plotter(final String name) {
-            this.name = name;
-        }
-
-        /**
-         * Get the current value for the plotted point
-         *
-         * @return
-         */
-        public abstract int getValue();
-
-        /**
-         * Get the column name for the plotted point
-         *
-         * @return the plotted point's column name
-         */
-        public String getColumnName() {
-            return name;
-        }
-
-        /**
-         * Called after the website graphs have been updated
-         */
-        public void reset() {
-        }
-
-        @Override
-        public int hashCode() {
-            return getColumnName().hashCode();
-        }
-
-        @Override
-        public boolean equals(final Object object) {
-            if (!(object instanceof Plotter)) {
-                return false;
-            }
-
-            final Plotter plotter = (Plotter) object;
-            return plotter.name.equals(name) && plotter.getValue() == getValue();
-        }
     }
 }
