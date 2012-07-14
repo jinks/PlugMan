@@ -11,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlugMan extends JavaPlugin {
 
     public List skipPlugins;
-    private boolean useMetrics;
+    private transient boolean useMetrics;
     //
     public final Utilities util = new Utilities(this);
     private static final Logger logger = Bukkit.getLogger();
