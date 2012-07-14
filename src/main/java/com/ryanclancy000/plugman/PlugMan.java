@@ -14,7 +14,7 @@ public class PlugMan extends JavaPlugin {
     private transient boolean useMetrics;
     //
     public final Utilities util = new Utilities(this);
-    private static final Logger logger = Bukkit.getLogger();
+    public static final Logger logger = Bukkit.getLogger();
     
     @Override
     public void onEnable() {

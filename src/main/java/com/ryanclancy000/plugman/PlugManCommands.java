@@ -1,6 +1,7 @@
 package com.ryanclancy000.plugman;
 
 import com.ryanclancy000.plugman.utilities.Utilities;
+import java.util.logging.Level;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -72,6 +73,7 @@ public class PlugManCommands implements CommandExecutor {
                     plugin.util.unloadPlugin(sender, args);
                 } catch (Exception e) {
                     sender.sendMessage(Utilities.pre + Utilities.red + "Failed to unload plugin!");
+                    PlugMan.logger.log(Level.SEVERE, "{0} tried to unload a plugin and failed!{1}", new Object[]{sender.getName(), e});
                 }
             } else {
                 plugin.util.noPerms(sender);
