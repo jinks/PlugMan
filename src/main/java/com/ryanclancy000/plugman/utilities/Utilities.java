@@ -154,8 +154,10 @@ public class Utilities {
             return;
         }
 
-        sender.sendMessage(green + targetPlugin.getDescription().getFullName() + white + " by " + green + targetPlugin.getDescription().getAuthors());
-
+        sender.sendMessage(pre + gray + "Plugin Info: " + green + targetPlugin.getName());
+        sender.sendMessage(green + "Version: " + gray + targetPlugin.getDescription().getVersion());
+        sender.sendMessage(green + "Authors: " + gray + targetPlugin.getDescription().getAuthors());
+        sender.sendMessage(green + "Status: " + (targetPlugin.isEnabled() ? green + "Enabled" : red + "Disabled"));
     }
 
     // Status Command
