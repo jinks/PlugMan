@@ -30,10 +30,11 @@ public class Utilities {
     private final PlugMan plugin;
     //
     public static final ChatColor red = ChatColor.RED;
+    public static final ChatColor gray = ChatColor.GRAY;
     public static final ChatColor white = ChatColor.WHITE;
     public static final ChatColor green = ChatColor.GREEN;
     public static final ChatColor yellow = ChatColor.YELLOW;
-    public static final String pre = yellow + "[PlugMan] ";
+    public static final String pre = gray + "[" + green + "PlugMan" + gray + "] ";
     private static final String tooMany = red + "Too many arguments!";
     private static final String specifyPlugin = red + "Must specify a plugin!";
     private static final String pluginNotFound = red + "Plugin not found!";
@@ -63,23 +64,23 @@ public class Utilities {
 
     // PlugMan Command
     public void thisInfo(CommandSender sender) {
-        sender.sendMessage(pre + green + "v" + plugin.getDescription().getVersion() + yellow + " by " + green + "ryanclancy000");
-        sender.sendMessage(yellow + "- To view commands, do /plugman " + green + "help");
+        sender.sendMessage(pre + green + "v" + plugin.getDescription().getVersion() + gray + " by " + green + "ryanclancy000");
+        sender.sendMessage(gray + "-" + green + " To view commands, do /plugman help");
     }
 
     // Help Command
     public void helpList(CommandSender sender) {
-        sender.sendMessage(pre + green + "Help:");
-        sender.sendMessage(yellow + "/plugman " + green + "list - " + yellow + "Lists plugins.");
-        sender.sendMessage(yellow + "/plugman " + green + "vlist - " + yellow + "Lists plugins with versions.");
-        sender.sendMessage(yellow + "/plugman " + green + "info [plugin] - " + yellow + "Gives plugin info.");
-        sender.sendMessage(yellow + "/plugman " + green + "status [plugin] - " + yellow + "Checks the status of a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "test [permission] [player] - " + yellow + "Test permission node.");
-        sender.sendMessage(yellow + "/plugman " + green + "load [plugin] - " + yellow + "Loads a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "unload [plugin] - " + yellow + "Unloads a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "reload [plugin|all] - " + yellow + "Reloads a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "enable [plugin|all] - " + yellow + "Enables a plugin.");
-        sender.sendMessage(yellow + "/plugman " + green + "disable [plugin|all] - " + yellow + "Disables a plugin.");
+        sender.sendMessage(white + "--------------------- " + gray + "[" + green + " PlugMan " + gray + "]" + white + " ---------------------");
+        sender.sendMessage(green + "/plugman list" + white + " - " + gray + "List all plugins.");
+        sender.sendMessage(green + "/plugman vlist" + white + " - " + gray + "List all plugins with versions.");
+        sender.sendMessage(green + "/plugman info [plugin]" + white + " - " + gray + "Give plugin info.");
+        sender.sendMessage(green + "/plugman status [plugin]" + white + " - " + gray + "Give the status of a plugin.");
+        sender.sendMessage(green + "/plugman test [permission] [player]" + white + " - " + gray + "Test a permission node.");
+        sender.sendMessage(green + "/plugman load [plugin]" + white + " - " + gray + "Load a plugin.");
+        sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
+        sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin."); 
+        sender.sendMessage(green + "/plugman enable [plugin|all]" + white + " - " + gray + "Enable a plugin.");
+        sender.sendMessage(green + "/plugman disable [plugin|all]" + white + " - " + gray + "Disable a plugin.");
     }
 
     // List Command
@@ -106,7 +107,7 @@ public class Utilities {
 			}
 			list.append(plName);
         }
-        sender.sendMessage(pre + yellow + "Plugins: " + list);
+        sender.sendMessage(pre + gray + "Plugins: " + list);
 
     }
 
@@ -134,7 +135,7 @@ public class Utilities {
 			}
 			list.append(plName);
         }
-        sender.sendMessage(pre + yellow + "Plugins: " + list);
+        sender.sendMessage(pre + gray + "Plugins: " + list);
 
     }
 
@@ -212,7 +213,7 @@ public class Utilities {
         if (!parsedCommands.isEmpty()) {
 
             StringBuilder commandsOut = new StringBuilder();
-            commandsOut.append(pre).append(green + "Command List: ");
+            commandsOut.append(pre).append(gray + "Command List: ");
 
             for (int i = 0; i < parsedCommands.size(); i++) {
 
@@ -224,9 +225,9 @@ public class Utilities {
                 }
 
                 if (parsedCommands.size() > 0) {
-                    commandsOut.append(yellow + "\"").append(thisCommand).append("\" ");
+                    commandsOut.append(green + "\"").append(thisCommand).append("\" ");
                 } else {
-                    commandsOut.append(yellow + "\"").append(thisCommand).append("\"");
+                    commandsOut.append(green + "\"").append(thisCommand).append("\"");
                 }
 
             }
