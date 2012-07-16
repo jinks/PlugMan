@@ -29,6 +29,7 @@ public class PlugMan extends JavaPlugin {
             skipPlugins = this.getConfig().getList("skip-on-reload");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
+            useMetrics = true;
             skipPlugins = null;
         }
     }
