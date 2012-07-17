@@ -51,7 +51,7 @@ public class Utilities {
         }
         return null;
     }
-    
+
     private String consolidateArgs(String[] args) {
         String pl = args[1];
         if (args.length > 2) {
@@ -78,7 +78,7 @@ public class Utilities {
         sender.sendMessage(green + "/plugman test [permission] [player]" + white + " - " + gray + "Test a permission node.");
         sender.sendMessage(green + "/plugman load [plugin]" + white + " - " + gray + "Load a plugin.");
         sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
-        sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin."); 
+        sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin.");
         sender.sendMessage(green + "/plugman enable [plugin|all]" + white + " - " + gray + "Enable a plugin.");
         sender.sendMessage(green + "/plugman disable [plugin|all]" + white + " - " + gray + "Disable a plugin.");
     }
@@ -102,10 +102,10 @@ public class Utilities {
         }
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
         for (String plName : pluginList) {
-			if(list.length() > 0) {
-				list.append(white + ", ");
-			}
-			list.append(plName);
+            if (list.length() > 0) {
+                list.append(white + ", ");
+            }
+            list.append(plName);
         }
         sender.sendMessage(pre + gray + "Plugins: " + list);
 
@@ -130,10 +130,10 @@ public class Utilities {
         }
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
         for (String plName : pluginList) {
-			if(list.length() > 0) {
-				list.append(white + ", ");
-			}
-			list.append(plName);
+            if (list.length() > 0) {
+                list.append(white + ", ");
+            }
+            list.append(plName);
         }
         sender.sendMessage(pre + gray + "Plugins: " + list);
 
@@ -146,7 +146,7 @@ public class Utilities {
             sender.sendMessage(pre + red + specifyPlugin);
             return;
         }
-        
+
         Plugin targetPlugin = getPlugin(consolidateArgs(args));
 
         if (targetPlugin == null) {
@@ -458,7 +458,7 @@ public class Utilities {
         }
 
         String pl = consolidateArgs(args);
-        
+
         if (getPlugin(pl) == null) {
             sender.sendMessage(pre + red + pluginNotFound);
             return;

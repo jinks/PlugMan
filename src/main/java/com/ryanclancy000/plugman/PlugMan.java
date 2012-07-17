@@ -15,14 +15,14 @@ public class PlugMan extends JavaPlugin {
     //
     public final Utilities util = new Utilities(this);
     public static final Logger logger = Bukkit.getLogger();
-    
+
     @Override
     public void onEnable() {
         getCommand("plugman").setExecutor(new PlugManCommands(this));
         loadConfig();
         startMetrics();
     }
-    
+
     private void loadConfig() {
         try {
             useMetrics = this.getConfig().getBoolean("use-metrics");
