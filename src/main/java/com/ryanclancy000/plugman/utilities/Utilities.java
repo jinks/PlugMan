@@ -300,8 +300,9 @@ public class Utilities {
 
         if (pluginFile.isFile()) {
             try {
-                Bukkit.getPluginManager().loadPlugin(pluginFile);
-                Bukkit.getPluginManager().enablePlugin(targetPlugin);
+                plugin.getServer().getPluginManager().loadPlugin(pluginFile);
+                targetPlugin = getPlugin(pl);
+                plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
                 sender.sendMessage(pre + green + getPlugin(pl) + " loaded and enabled!");
             } catch (UnknownDependencyException e) {
                 sender.sendMessage(pre + red + "File exists, but is missing a dependency!");
