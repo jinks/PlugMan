@@ -10,7 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
-    public List skipPlugins;
+    public List<String> skipPlugins;
+    private List<String> aliases;
     private transient boolean useMetrics;
     //
     public final Utilities util = new Utilities(this);
@@ -19,14 +20,16 @@ public class PlugMan extends JavaPlugin {
     @Override
     public void onEnable() {
         getCommand("plugman").setExecutor(new PlugManCommands(this));
+        getCommand("plugman").setAliases(aliases);
         loadConfig();
         startMetrics();
     }
 
     private void loadConfig() {
         try {
+            aliases = this.getConfig().getStringList("aliases");
             useMetrics = this.getConfig().getBoolean("use-metrics");
-            skipPlugins = this.getConfig().getList("skip-on-reload");
+            skipPlugins = this.getConfig().getStringList("skip-on-reload");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
             useMetrics = true;
