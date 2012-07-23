@@ -12,7 +12,6 @@ public class PlugMan extends JavaPlugin {
 
     public List<String> skipPlugins;
     private List<String> aliases;
-    private transient boolean useMetrics;
     //
     public final Utilities util = new Utilities(this);
     public static final Logger logger = Bukkit.getLogger();
@@ -22,32 +21,30 @@ public class PlugMan extends JavaPlugin {
         getCommand("plugman").setExecutor(new PlugManCommands(this));
         getCommand("plugman").setAliases(aliases);
         loadConfig();
-        startMetrics();
+        if (this.getConfig().getBoolean("use-metrics")) {
+            startMetrics();
+        } else {
+            this.getLogger().log(Level.INFO, "Ignoring Metrics!");
+        }
     }
 
     private void loadConfig() {
         try {
             aliases = this.getConfig().getStringList("aliases");
-            useMetrics = this.getConfig().getBoolean("use-metrics");
             skipPlugins = this.getConfig().getStringList("skip-on-reload");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
-            useMetrics = true;
             skipPlugins = null;
         }
     }
 
     private void startMetrics() {
-        if (useMetrics) {
-            try {
-                MetricsLite metrics = new MetricsLite(this);
-                metrics.start();
-                logger.log(Level.INFO, "Metrics successfully started!");
-            } catch (Exception e) {
-                logger.log(Level.SEVERE, "Failed to start Metrics!{0}", e);
-            }
-        } else {
-            logger.log(Level.INFO, "Ignoring Metrics!");
+        try {
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+            logger.log(Level.INFO, "Metrics successfully started!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Failed to start Metrics!{0}", e);
         }
     }
 }
