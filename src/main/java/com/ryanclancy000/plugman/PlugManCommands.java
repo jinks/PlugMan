@@ -18,86 +18,86 @@ public class PlugManCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (args.length == 0) {
-            plugin.util.thisInfo(sender);
+            plugin.getUtils().thisInfo(sender);
         } else if ("help".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.help")) {
-                plugin.util.helpList(sender);
+                plugin.getUtils().helpList(sender);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("list".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.list")) {
-                plugin.util.listPlugins(sender, args);
+                plugin.getUtils().listPlugins(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("vlist".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.vlist")) {
-                plugin.util.vlistPlugins(sender, args);
+                plugin.getUtils().vlistPlugins(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("info".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.info")) {
-                plugin.util.pluginInfo(sender, args);
+                plugin.getUtils().pluginInfo(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("status".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.status")) {
-                plugin.util.pluginStatus(sender, args);
+                plugin.getUtils().pluginStatus(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("usage".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.usage")) {
-                plugin.util.usageCommand(sender, args);
+                plugin.getUtils().usageCommand(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("test".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.test")) {
-                plugin.util.testPerms(sender, args);
+                plugin.getUtils().testPerms(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("load".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.load")) {
-                plugin.util.loadPlugin(sender, args);
+                plugin.getUtils().loadPlugin(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("unload".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.unload")) {
                 try {
-                    plugin.util.unloadPlugin(sender, args);
+                    plugin.getUtils().unloadPlugin(sender, args);
                 } catch (Exception e) {
                     sender.sendMessage(Utilities.pre + Utilities.red + "Failed to unload plugin!");
-                    PlugMan.logger.log(Level.SEVERE, "{0} tried to unload a plugin and failed!{1}", new Object[]{sender.getName(), e});
+                    plugin.getLog().log(Level.SEVERE, "{0} tried to unload a plugin and failed!{1}", new Object[]{sender.getName(), e});
                 }
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("reload".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.reload")) {
-                plugin.util.reloadPlugin(sender, args);
+                plugin.getUtils().reloadPlugin(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("enable".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.enable")) {
-                plugin.util.enablePlugin(sender, args);
+                plugin.getUtils().enablePlugin(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else if ("disable".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.disable")) {
-                plugin.util.disablePlugin(sender, args);
+                plugin.getUtils().disablePlugin(sender, args);
             } else {
-                plugin.util.noPerms(sender);
+                plugin.getUtils().noPerms(sender);
             }
         } else {
-            plugin.util.helpList(sender);
+            plugin.getUtils().helpList(sender);
         }
         return true;
     }

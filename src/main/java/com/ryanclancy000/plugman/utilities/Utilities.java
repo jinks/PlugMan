@@ -417,7 +417,7 @@ public class Utilities {
 
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                if (plugin.skipPlugins.contains(pl.getName()) || plugin.skipPlugins == null) {
+                if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped() == null) {
                     return;
                 } else {
                     Bukkit.getPluginManager().disablePlugin(pl);

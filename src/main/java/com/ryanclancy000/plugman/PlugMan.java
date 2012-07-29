@@ -10,22 +10,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
-    public List<String> skipPlugins;
     private List<String> aliases;
+    private List<String> skipPlugins;
     //
-    public final Utilities util = new Utilities(this);
-    public static final Logger logger = Bukkit.getLogger();
+    private final Utilities util = new Utilities(this);
+    private final PlugManCommands cHandler = new PlugManCommands(this);
+    private static final Logger logger = Bukkit.getLogger();
 
     @Override
     public void onEnable() {
-        getCommand("plugman").setExecutor(new PlugManCommands(this));
-        getCommand("plugman").setAliases(aliases);
         loadConfig();
-        if (this.getConfig().getBoolean("use-metrics")) {
-            startMetrics();
-        } else {
-            this.getLogger().log(Level.INFO, "Ignoring Metrics!");
-        }
+        registerCommands();
+        startMetrics();
     }
 
     private void loadConfig() {
@@ -37,14 +33,43 @@ public class PlugMan extends JavaPlugin {
             skipPlugins = null;
         }
     }
+    
+    private void registerCommands() {
+        getCommand("plugman").setExecutor(cHandler);
+        getCommand("plugman").setAliases(getAliases());
+    }
 
     private void startMetrics() {
-        try {
-            MetricsLite metrics = new MetricsLite(this);
-            metrics.start();
-            logger.log(Level.INFO, "Metrics successfully started!");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Failed to start Metrics!{0}", e);
+        if (this.getConfig().getBoolean("use-metrics")) {
+            try {
+                MetricsLite metrics = new MetricsLite(this);
+                metrics.start();
+                logger.log(Level.INFO, "Metrics successfully started!");
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Failed to start Metrics!{0}", e);
+            }
+        } else {
+            this.getLogger().log(Level.INFO, "Ignoring Metrics!");
         }
+    }
+
+    private List<String> getAliases() {
+        return aliases;
+    }
+
+    public List<String> getSkipped() {
+        return skipPlugins;
+    }
+
+    public Utilities getUtils() {
+        return util;
+    }
+    
+    public PlugManCommands getExecutor() {
+        return cHandler;
+    }
+
+    public Logger getLog() {
+        return logger;
     }
 }
