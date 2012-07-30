@@ -69,7 +69,7 @@ public class Utilities {
     }
 
     // Help Command
-    public void helpList(CommandSender sender) {
+    public void helpCommand(CommandSender sender) {
         sender.sendMessage(white + "--------------------- " + gray + "[" + green + " PlugMan " + gray + "]" + white + " ---------------------");
         if (sender.hasPermission("plugman.list")) sender.sendMessage(green + "/plugman list" + white + " - " + gray + "List all plugins.");
         if (sender.hasPermission("plugman.vlist")) sender.sendMessage(green + "/plugman vlist" + white + " - " + gray + "List all plugins with versions.");
@@ -84,7 +84,7 @@ public class Utilities {
     }
 
     // List Command
-    public void listPlugins(CommandSender sender, String[] args) {
+    public void listCommand(CommandSender sender, String[] args) {
 
         if (args.length > 1) {
             sender.sendMessage(pre + red + tooMany);
@@ -112,7 +112,7 @@ public class Utilities {
     }
 
     // vList Command
-    public void vlistPlugins(CommandSender sender, String[] args) {
+    public void vlistCommand(CommandSender sender, String[] args) {
 
         if (args.length > 1) {
             sender.sendMessage(pre + red + tooMany);
@@ -140,7 +140,7 @@ public class Utilities {
     }
 
     // Info Command
-    public void pluginInfo(CommandSender sender, String[] args) {
+    public void infoCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -161,7 +161,7 @@ public class Utilities {
     }
 
     // Status Command
-    public void pluginStatus(CommandSender sender, String[] args) {
+    public void statusCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -247,7 +247,7 @@ public class Utilities {
     }
 
     // Test Command
-    public void testPerms(CommandSender sender, String[] args) {
+    public void testCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + "Must specify permission and player!");
@@ -278,7 +278,7 @@ public class Utilities {
     }
 
     // Load Command
-    public void loadPlugin(CommandSender sender, String[] args) {
+    public void loadCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -318,7 +318,7 @@ public class Utilities {
     }
 
     // Unload Command
-    public void unloadPlugin(CommandSender sender, String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public void unloadCommand(CommandSender sender, String[] args) throws NoSuchFieldException, IllegalAccessException {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -408,7 +408,7 @@ public class Utilities {
     }
 
     // Reload Command
-    public void reloadPlugin(CommandSender sender, String[] args) {
+    public void reloadCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -443,7 +443,7 @@ public class Utilities {
     }
 
     // Enable Command
-    public void enablePlugin(CommandSender sender, String[] args) {
+    public void enableCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -477,7 +477,7 @@ public class Utilities {
     }
 
     // Disable Command
-    public void disablePlugin(CommandSender sender, String[] args) {
+    public void disableCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);

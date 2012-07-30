@@ -32,7 +32,7 @@ public class PlugMan extends JavaPlugin {
     }
     
     private void registerCommands() {
-        getCommand("plugman").setExecutor(cHandler);
+        getCommand("plugman").setExecutor(getExecutor());
         getCommand("plugman").setAliases(getAliases());
     }
 
