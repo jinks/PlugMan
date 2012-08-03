@@ -80,6 +80,9 @@ public class Utilities {
         if (sender.hasPermission("plugman.info")) {
             sender.sendMessage(green + "/plugman info [plugin]" + white + " - " + gray + "Give plugin info.");
         }
+        if (sender.hasPermission("plugman.usage")) {
+            sender.sendMessage(green + "/plugman usage [plugin]" + white + " - " + gray + "List command plugin has registered.");
+        }
         if (sender.hasPermission("plugman.status")) {
             sender.sendMessage(green + "/plugman status [plugin]" + white + " - " + gray + "Give the status of a plugin.");
         }
