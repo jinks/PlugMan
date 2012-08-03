@@ -30,7 +30,7 @@ public class PlugMan extends JavaPlugin {
             skipPlugins = null;
         }
     }
-    
+
     private void registerCommands() {
         getCommand("plugman").setExecutor(getExecutor());
         getCommand("plugman").setAliases(getAliases());
@@ -61,7 +61,7 @@ public class PlugMan extends JavaPlugin {
     public Utilities getUtils() {
         return util;
     }
-    
+
     public PlugManCommands getExecutor() {
         return cHandler;
     }

@@ -71,16 +71,36 @@ public class Utilities {
     // Help Command
     public void helpCommand(CommandSender sender) {
         sender.sendMessage(white + "--------------------- " + gray + "[" + green + " PlugMan " + gray + "]" + white + " ---------------------");
-        if (sender.hasPermission("plugman.list")) sender.sendMessage(green + "/plugman list" + white + " - " + gray + "List all plugins.");
-        if (sender.hasPermission("plugman.vlist")) sender.sendMessage(green + "/plugman vlist" + white + " - " + gray + "List all plugins with versions.");
-        if (sender.hasPermission("plugman.info")) sender.sendMessage(green + "/plugman info [plugin]" + white + " - " + gray + "Give plugin info.");
-        if (sender.hasPermission("plugman.status")) sender.sendMessage(green + "/plugman status [plugin]" + white + " - " + gray + "Give the status of a plugin.");
-        if (sender.hasPermission("plugman.test")) sender.sendMessage(green + "/plugman test [permission] [player]" + white + " - " + gray + "Test a permission node.");
-        if (sender.hasPermission("plugman.load")) sender.sendMessage(green + "/plugman load [plugin]" + white + " - " + gray + "Load a plugin.");
-        if (sender.hasPermission("plugman.unload")) sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
-        if (sender.hasPermission("plugman.reload")) sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin.");
-        if (sender.hasPermission("plugman.enable")) sender.sendMessage(green + "/plugman enable [plugin|all]" + white + " - " + gray + "Enable a plugin.");
-        if (sender.hasPermission("plugman.disable")) sender.sendMessage(green + "/plugman disable [plugin|all]" + white + " - " + gray + "Disable a plugin.");
+        if (sender.hasPermission("plugman.list")) {
+            sender.sendMessage(green + "/plugman list" + white + " - " + gray + "List all plugins.");
+        }
+        if (sender.hasPermission("plugman.vlist")) {
+            sender.sendMessage(green + "/plugman vlist" + white + " - " + gray + "List all plugins with versions.");
+        }
+        if (sender.hasPermission("plugman.info")) {
+            sender.sendMessage(green + "/plugman info [plugin]" + white + " - " + gray + "Give plugin info.");
+        }
+        if (sender.hasPermission("plugman.status")) {
+            sender.sendMessage(green + "/plugman status [plugin]" + white + " - " + gray + "Give the status of a plugin.");
+        }
+        if (sender.hasPermission("plugman.test")) {
+            sender.sendMessage(green + "/plugman test [permission] [player]" + white + " - " + gray + "Test a permission node.");
+        }
+        if (sender.hasPermission("plugman.load")) {
+            sender.sendMessage(green + "/plugman load [plugin]" + white + " - " + gray + "Load a plugin.");
+        }
+        if (sender.hasPermission("plugman.unload")) {
+            sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
+        }
+        if (sender.hasPermission("plugman.reload")) {
+            sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin.");
+        }
+        if (sender.hasPermission("plugman.enable")) {
+            sender.sendMessage(green + "/plugman enable [plugin|all]" + white + " - " + gray + "Enable a plugin.");
+        }
+        if (sender.hasPermission("plugman.disable")) {
+            sender.sendMessage(green + "/plugman disable [plugin|all]" + white + " - " + gray + "Disable a plugin.");
+        }
     }
 
     // List Command
