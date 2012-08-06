@@ -126,7 +126,7 @@ public class Utilities {
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
         for (String plName : pluginList) {
             if (list.length() > 0) {
-                list.append(white + ", ");
+                list.append(white).append(", ");
             }
             list.append(plName);
         }
@@ -154,7 +154,7 @@ public class Utilities {
         Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
         for (String plName : pluginList) {
             if (list.length() > 0) {
-                list.append(white + ", ");
+                list.append(white).append(", ");
             }
             list.append(plName);
         }
@@ -238,7 +238,7 @@ public class Utilities {
         if (!parsedCommands.isEmpty()) {
 
             StringBuilder commandsOut = new StringBuilder();
-            commandsOut.append(pre).append(gray + "Command List: ");
+            commandsOut.append(pre).append(gray).append("Command List: ");
 
             for (int i = 0; i < parsedCommands.size(); i++) {
 
@@ -250,9 +250,9 @@ public class Utilities {
                 }
 
                 if (parsedCommands.size() > 0) {
-                    commandsOut.append(green + "\"").append(thisCommand).append("\" ");
+                    commandsOut.append(green).append("\"").append(thisCommand).append("\" ");
                 } else {
-                    commandsOut.append(green + "\"").append(thisCommand).append("\"");
+                    commandsOut.append(green).append("\"").append(thisCommand).append("\"");
                 }
 
             }
