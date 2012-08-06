@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,9 +42,9 @@ public class Utilities {
         this.plugin = plugin;
     }
 
-    private Plugin getPlugin(String plugin) {
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (pl.getDescription().getName().equalsIgnoreCase(plugin)) {
+    private Plugin getPlugin(String p) {
+        for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+            if (pl.getDescription().getName().equalsIgnoreCase(p)) {
                 return pl;
             }
         }
@@ -111,27 +110,25 @@ public class Utilities {
 
         if (args.length > 1) {
             sender.sendMessage(pre + red + tooMany);
-            return;
-        }
+        } else {
 
-        StringBuilder list = new StringBuilder();
-        List<String> pluginList = new ArrayList<String>();
+            StringBuilder list = new StringBuilder();
+            List<String> pluginList = new ArrayList<String>();
 
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            String plName = "";
-            plName += pl.isEnabled() ? green : red;
-            plName += pl.getDescription().getName();
-            pluginList.add(plName);
-        }
-        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-        for (String plName : pluginList) {
-            if (list.length() > 0) {
-                list.append(white).append(", ");
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                String plName = "";
+                plName += (pl.isEnabled() ? green : red) + pl.getDescription().getName();
+                pluginList.add(plName);
             }
-            list.append(plName);
+            Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+            for (String plName : pluginList) {
+                if (list.length() > 0) {
+                    list.append(white).append(", ");
+                }
+                list.append(plName);
+            }
+            sender.sendMessage(pre + gray + "Plugins: " + list);
         }
-        sender.sendMessage(pre + gray + "Plugins: " + list);
-
     }
 
     // vList Command
@@ -139,27 +136,25 @@ public class Utilities {
 
         if (args.length > 1) {
             sender.sendMessage(pre + red + tooMany);
-            return;
-        }
+        } else {
 
-        StringBuilder list = new StringBuilder();
-        List<String> pluginList = new ArrayList<String>();
+            StringBuilder list = new StringBuilder();
+            List<String> pluginList = new ArrayList<String>();
 
-        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-            String plName = "";
-            plName += pl.isEnabled() ? green : red;
-            plName += pl.getDescription().getFullName();
-            pluginList.add(plName);
-        }
-        Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-        for (String plName : pluginList) {
-            if (list.length() > 0) {
-                list.append(white).append(", ");
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                String plName = "";
+                plName += (pl.isEnabled() ? green : red) + pl.getDescription().getFullName();
+                pluginList.add(plName);
             }
-            list.append(plName);
+            Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
+            for (String plName : pluginList) {
+                if (list.length() > 0) {
+                    list.append(white).append(", ");
+                }
+                list.append(plName);
+            }
+            sender.sendMessage(pre + gray + "Plugins: " + list);
         }
-        sender.sendMessage(pre + gray + "Plugins: " + list);
-
     }
 
     // Info Command
@@ -174,13 +169,12 @@ public class Utilities {
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
-            return;
+        } else {
+            sender.sendMessage(pre + gray + "Plugin Info: " + green + targetPlugin.getName());
+            sender.sendMessage(green + "Version: " + gray + targetPlugin.getDescription().getVersion());
+            sender.sendMessage(green + "Authors: " + gray + targetPlugin.getDescription().getAuthors());
+            sender.sendMessage(green + "Status: " + (targetPlugin.isEnabled() ? green + "Enabled" : red + "Disabled"));
         }
-
-        sender.sendMessage(pre + gray + "Plugin Info: " + green + targetPlugin.getName());
-        sender.sendMessage(green + "Version: " + gray + targetPlugin.getDescription().getVersion());
-        sender.sendMessage(green + "Authors: " + gray + targetPlugin.getDescription().getAuthors());
-        sender.sendMessage(green + "Status: " + (targetPlugin.isEnabled() ? green + "Enabled" : red + "Disabled"));
     }
 
     // Status Command
@@ -195,15 +189,11 @@ public class Utilities {
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
-            return;
-        }
-
-        if (targetPlugin.isEnabled()) {
+        } else if (targetPlugin.isEnabled()) {
             sender.sendMessage(pre + green + targetPlugin.getName() + " is enabled!");
         } else {
             sender.sendMessage(pre + green + targetPlugin.getName() + " is disabled!");
         }
-
     }
 
     // Usage Command
@@ -218,55 +208,53 @@ public class Utilities {
 
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
-            return;
-        }
-
-        ArrayList<String> out = new ArrayList<String>();
-        ArrayList<String> parsedCommands = new ArrayList<String>();
-        Map commands = targetPlugin.getDescription().getCommands();
-
-        if (commands != null) {
-            Iterator commandsIt = commands.entrySet().iterator();
-            while (commandsIt.hasNext()) {
-                Map.Entry thisEntry = (Map.Entry) commandsIt.next();
-                if (thisEntry != null) {
-                    parsedCommands.add((String) thisEntry.getKey());
-                }
-            }
-        }
-
-        if (!parsedCommands.isEmpty()) {
-
-            StringBuilder commandsOut = new StringBuilder();
-            commandsOut.append(pre).append(gray).append("Command List: ");
-
-            for (int i = 0; i < parsedCommands.size(); i++) {
-
-                String thisCommand = parsedCommands.get(i);
-
-                if (commandsOut.length() + thisCommand.length() > 55) {
-                    sender.sendMessage(commandsOut.toString());
-                    commandsOut = new StringBuilder();
-                }
-
-                if (parsedCommands.size() > 0) {
-                    commandsOut.append(green).append("\"").append(thisCommand).append("\" ");
-                } else {
-                    commandsOut.append(green).append("\"").append(thisCommand).append("\"");
-                }
-
-            }
-
-            out.add(commandsOut.toString());
-
         } else {
-            out.add(pre + red + "Plugin has no registered commands!");
-        }
+            ArrayList<String> out = new ArrayList<String>();
+            ArrayList<String> parsedCommands = new ArrayList<String>();
+            Map commands = targetPlugin.getDescription().getCommands();
 
-        for (String s : out) {
-            sender.sendMessage(s);
-        }
+            if (commands != null) {
+                Iterator commandsIt = commands.entrySet().iterator();
+                while (commandsIt.hasNext()) {
+                    Map.Entry thisEntry = (Map.Entry) commandsIt.next();
+                    if (thisEntry != null) {
+                        parsedCommands.add((String) thisEntry.getKey());
+                    }
+                }
+            }
 
+            if (!parsedCommands.isEmpty()) {
+
+                StringBuilder commandsOut = new StringBuilder();
+                commandsOut.append(pre).append(gray).append("Command List: ");
+
+                for (int i = 0; i < parsedCommands.size(); i++) {
+
+                    String thisCommand = parsedCommands.get(i);
+
+                    if (commandsOut.length() + thisCommand.length() > 55) {
+                        sender.sendMessage(commandsOut.toString());
+                        commandsOut = new StringBuilder();
+                    }
+
+                    if (parsedCommands.size() > 0) {
+                        commandsOut.append(green).append("\"").append(thisCommand).append("\" ");
+                    } else {
+                        commandsOut.append(green).append("\"").append(thisCommand).append("\"");
+                    }
+
+                }
+
+                out.add(commandsOut.toString());
+
+            } else {
+                out.add(pre + red + "Plugin has no registered commands!");
+            }
+
+            for (String s : out) {
+                sender.sendMessage(s);
+            }
+        }
     }
 
     // Test Command
@@ -274,19 +262,14 @@ public class Utilities {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + "Must specify permission and player!");
-            return;
-        }
-
-        if (args.length == 2) {
+        } else if (args.length == 2) {
             if (sender.hasPermission(args[1])) {
                 sender.sendMessage(pre + green + "You have permission for '" + args[1] + "'.");
             } else {
                 sender.sendMessage(pre + red + "You do not have permission for '" + args[1] + "'.");
             }
-        }
-
-        if (args.length == 3) {
-            Player target = Bukkit.getPlayer(args[2]);
+        } else if (args.length == 3) {
+            Player target = plugin.getServer().getPlayer(args[2]);
             if (target == null) {
                 sender.sendMessage(pre + red + "Player not found!");
             } else {
@@ -296,8 +279,9 @@ public class Utilities {
                     sender.sendMessage(pre + red + target.getName() + " does not have permission for " + args[1]);
                 }
             }
+        } else {
+            sender.sendMessage(pre + red + "Invalid arguments!");
         }
-
     }
 
     // Load Command
@@ -316,9 +300,10 @@ public class Utilities {
             if (targetPlugin.isEnabled()) {
                 sender.sendMessage(pre + red + "Plugin already loaded and enabled!");
                 return;
+            } else {
+                sender.sendMessage(pre + red + "Plugin already loaded, but is disabled!");
+                return;
             }
-            sender.sendMessage(pre + red + "Plugin already loaded, but is disabled!");
-            return;
         }
 
         if (pluginFile.isFile()) {
@@ -337,7 +322,6 @@ public class Utilities {
         } else {
             sender.sendMessage(pre + red + "File doesn't exist!");
         }
-
     }
 
     // Unload Command
@@ -349,79 +333,79 @@ public class Utilities {
         }
 
         String pl = consolidateArgs(args);
+        Plugin targetPlugin = getPlugin(pl);
 
-        if (getPlugin(pl) == null) {
+        if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
-            return;
-        }
+        } else {
+            PluginManager pm = plugin.getServer().getPluginManager();
+            SimplePluginManager spm = (SimplePluginManager) pm;
+            SimpleCommandMap cmdMap = null;
+            List<Plugin> plugins = null;
+            Map<String, Plugin> names = null;
+            Map<String, Command> commands = null;
+            Map<Event, SortedSet<RegisteredListener>> listeners = null;
+            boolean reloadlisteners = true;
 
-        PluginManager pm = Bukkit.getServer().getPluginManager();
-        SimplePluginManager spm = (SimplePluginManager) pm;
-        SimpleCommandMap cmdMap = null;
-        List<Plugin> plugins = null;
-        Map<String, Plugin> names = null;
-        Map<String, Command> commands = null;
-        Map<Event, SortedSet<RegisteredListener>> listeners = null;
-        boolean reloadlisteners = true;
+            if (spm != null) {
+                Field pluginsField = spm.getClass().getDeclaredField("plugins");
+                pluginsField.setAccessible(true);
+                plugins = (List<Plugin>) pluginsField.get(spm);
 
-        if (spm != null) {
-            Field pluginsField = spm.getClass().getDeclaredField("plugins");
-            pluginsField.setAccessible(true);
-            plugins = (List<Plugin>) pluginsField.get(spm);
+                Field lookupNamesField = spm.getClass().getDeclaredField("lookupNames");
+                lookupNamesField.setAccessible(true);
+                names = (Map<String, Plugin>) lookupNamesField.get(spm);
 
-            Field lookupNamesField = spm.getClass().getDeclaredField("lookupNames");
-            lookupNamesField.setAccessible(true);
-            names = (Map<String, Plugin>) lookupNamesField.get(spm);
+                try {
+                    Field listenersField = spm.getClass().getDeclaredField("listeners");
+                    listenersField.setAccessible(true);
+                    listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(spm);
+                } catch (Exception e) {
+                    reloadlisteners = false;
+                }
 
-            try {
-                Field listenersField = spm.getClass().getDeclaredField("listeners");
-                listenersField.setAccessible(true);
-                listeners = (Map<Event, SortedSet<RegisteredListener>>) listenersField.get(spm);
-            } catch (Exception e) {
-                reloadlisteners = false;
+                Field commandMapField = spm.getClass().getDeclaredField("commandMap");
+                commandMapField.setAccessible(true);
+                cmdMap = (SimpleCommandMap) commandMapField.get(spm);
+
+                Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
+                knownCommandsField.setAccessible(true);
+                commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
             }
 
-            Field commandMapField = spm.getClass().getDeclaredField("commandMap");
-            commandMapField.setAccessible(true);
-            cmdMap = (SimpleCommandMap) commandMapField.get(spm);
+            for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
+                if (p.getDescription().getName().equalsIgnoreCase(pl)) {
+                    pm.disablePlugin(p);
+                    sender.sendMessage(pre + green + p.getName() + " has been unloaded and disabled!");
+                    if (plugins != null && plugins.contains(p)) {
+                        plugins.remove(p);
+                    }
 
-            Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
-            knownCommandsField.setAccessible(true);
-            commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
-        }
+                    if (names != null && names.containsKey(pl)) {
+                        names.remove(pl);
+                    }
 
-        for (Plugin p : Bukkit.getServer().getPluginManager().getPlugins()) {
-            if (p.getDescription().getName().equalsIgnoreCase(pl)) {
-                pm.disablePlugin(p);
-                sender.sendMessage(pre + green + p.getName() + " has been unloaded and disabled!");
-                if (plugins != null && plugins.contains(p)) {
-                    plugins.remove(p);
-                }
+                    if (listeners != null && reloadlisteners) {
+                        for (SortedSet<RegisteredListener> set : listeners.values()) {
+                            for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
+                                RegisteredListener value = it.next();
 
-                if (names != null && names.containsKey(pl)) {
-                    names.remove(pl);
-                }
-
-                if (listeners != null && reloadlisteners) {
-                    for (SortedSet<RegisteredListener> set : listeners.values()) {
-                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
-                            RegisteredListener value = it.next();
-
-                            if (value.getPlugin() == p) {
-                                it.remove();
+                                if (value.getPlugin() == p) {
+                                    it.remove();
+                                }
                             }
                         }
                     }
-                }
 
-                if (cmdMap != null) {
-                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
-                        Map.Entry<String, Command> entry = it.next();
-                        if (entry.getValue() instanceof PluginCommand) {
-                            PluginCommand c = (PluginCommand) entry.getValue();
-                            if (c.getPlugin() == p) {
-                                c.unregister(cmdMap);
-                                it.remove();
+                    if (cmdMap != null) {
+                        for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
+                            Map.Entry<String, Command> entry = it.next();
+                            if (entry.getValue() instanceof PluginCommand) {
+                                PluginCommand c = (PluginCommand) entry.getValue();
+                                if (c.getPlugin() == p) {
+                                    c.unregister(cmdMap);
+                                    it.remove();
+                                }
                             }
                         }
                     }
@@ -439,12 +423,12 @@ public class Utilities {
         }
 
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
                 if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped() == null) {
                     return;
                 } else {
-                    Bukkit.getPluginManager().disablePlugin(pl);
-                    Bukkit.getPluginManager().enablePlugin(pl);
+                    plugin.getServer().getPluginManager().disablePlugin(pl);
+                    plugin.getServer().getPluginManager().enablePlugin(pl);
                 }
             }
             sender.sendMessage(pre + green + "All plugins reloaded!");
@@ -459,8 +443,8 @@ public class Utilities {
         }
 
         Plugin targetPlugin = getPlugin(pl);
-        Bukkit.getPluginManager().disablePlugin(targetPlugin);
-        Bukkit.getPluginManager().enablePlugin(targetPlugin);
+        plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
+        plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
         sender.sendMessage(pre + green + targetPlugin.getName() + " Reloaded!");
 
     }
@@ -474,8 +458,8 @@ public class Utilities {
         }
 
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                Bukkit.getPluginManager().enablePlugin(pl);
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                plugin.getServer().getPluginManager().enablePlugin(pl);
             }
             sender.sendMessage(pre + green + "All plugins enabled!");
             return;
@@ -494,7 +478,7 @@ public class Utilities {
         }
 
         Plugin targetPlugin = getPlugin(pl);
-        Bukkit.getPluginManager().enablePlugin(targetPlugin);
+        plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
         sender.sendMessage(pre + green + targetPlugin.getName() + " Enabled!");
 
     }
@@ -508,8 +492,8 @@ public class Utilities {
         }
 
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
-            for (Plugin pl : Bukkit.getPluginManager().getPlugins()) {
-                Bukkit.getPluginManager().disablePlugin(pl);
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                plugin.getServer().getPluginManager().disablePlugin(pl);
             }
             sender.sendMessage(pre + red + "All plugins disabled!");
             return;
@@ -528,7 +512,7 @@ public class Utilities {
         }
 
         Plugin targetPlugin = getPlugin(pl);
-        Bukkit.getPluginManager().disablePlugin(targetPlugin);
+        plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
         sender.sendMessage(pre + red + targetPlugin.getName() + " Disabled!");
 
     }
