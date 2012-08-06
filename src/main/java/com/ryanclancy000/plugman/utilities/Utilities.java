@@ -112,20 +112,21 @@ public class Utilities {
             sender.sendMessage(pre + red + tooMany);
         } else {
 
+            String pluginName = "";
             StringBuilder list = new StringBuilder();
             List<String> pluginList = new ArrayList<String>();
-
+            
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                String plName = "";
-                plName += (pl.isEnabled() ? green : red) + pl.getDescription().getName();
-                pluginList.add(plName);
+                pluginName += (pl.isEnabled() ? green : red) + pl.getDescription().getName();
+                pluginList.add(pluginName);
             }
+            list.append(pluginName);
             Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-            for (String plName : pluginList) {
+            for (String name : pluginList) {
                 if (list.length() > 0) {
                     list.append(white).append(", ");
                 }
-                list.append(plName);
+                list.append(name);
             }
             sender.sendMessage(pre + gray + "Plugins: " + list);
         }
@@ -138,20 +139,21 @@ public class Utilities {
             sender.sendMessage(pre + red + tooMany);
         } else {
 
+            String pluginName = "";
             StringBuilder list = new StringBuilder();
             List<String> pluginList = new ArrayList<String>();
 
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                String plName = "";
-                plName += (pl.isEnabled() ? green : red) + pl.getDescription().getFullName();
-                pluginList.add(plName);
+                pluginName += (pl.isEnabled() ? green : red) + pl.getDescription().getFullName();
+                pluginList.add(pluginName);
             }
+            list.append(pluginName);
             Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
-            for (String plName : pluginList) {
+            for (String name : pluginList) {
                 if (list.length() > 0) {
                     list.append(white).append(", ");
                 }
-                list.append(plName);
+                list.append(name);
             }
             sender.sendMessage(pre + gray + "Plugins: " + list);
         }
