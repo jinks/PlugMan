@@ -11,8 +11,7 @@ public class PlugMan extends JavaPlugin {
     private List<String> aliases;
     private List<String> skipPlugins;
     //
-    private final Utilities util = new Utilities(this);
-    private final PlugManCommands cHandler = new PlugManCommands(this);
+    private final Utilities utils = new Utilities(this);
 
     @Override
     public void onEnable() {
@@ -32,8 +31,8 @@ public class PlugMan extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.getCommand("plugman").setExecutor(getExecutor());
-        this.getCommand("plugman").setAliases(getAliases());
+        this.getCommand("plugman").setExecutor(new PlugManCommands(this));
+        this.getCommand("plugman").setAliases(aliases);
     }
 
     private void startMetrics() {
@@ -50,19 +49,11 @@ public class PlugMan extends JavaPlugin {
         }
     }
 
-    public List<String> getAliases() {
-        return this.aliases;
-    }
-
     public List<String> getSkipped() {
         return this.skipPlugins;
     }
-
+    
     public Utilities getUtils() {
-        return this.util;
-    }
-
-    public PlugManCommands getExecutor() {
-        return this.cHandler;
+        return this.utils;
     }
 }
