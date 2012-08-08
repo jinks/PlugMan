@@ -12,6 +12,12 @@ public class PlugMan extends JavaPlugin {
     private List<String> skipPlugins;
     //
     private final Utilities utils = new Utilities(this);
+    
+    @Override
+    public void onDisable() {
+        aliases.clear();
+        skipPlugins.clear();
+    }
 
     @Override
     public void onEnable() {
