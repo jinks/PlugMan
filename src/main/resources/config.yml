@@ -1,6 +1,6 @@
 use-metrics: true
 skip-on-reload:
   - Spout
-aliases:
+command-aliases:
   - pman
   - plgman

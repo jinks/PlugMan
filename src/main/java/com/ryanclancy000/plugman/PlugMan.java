@@ -29,7 +29,7 @@ public class PlugMan extends JavaPlugin {
     private void loadConfig() {
         try {
             this.getConfig().options().copyDefaults(true);
-            aliases = this.getConfig().getStringList("aliases");
+            aliases = this.getConfig().getStringList("command-aliases");
             skipPlugins = this.getConfig().getStringList("skip-on-reload");
         } catch (Exception e) {
             this.getLogger().log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
