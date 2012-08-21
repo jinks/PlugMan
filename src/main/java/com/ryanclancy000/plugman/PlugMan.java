@@ -21,12 +21,12 @@ public class PlugMan extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        loadConfig();
-        registerCommands();
-        startMetrics();
+        initConfig();
+        initCommands();
+        initMetrics();
     }
 
-    private void loadConfig() {
+    private void initConfig() {
         try {
             this.getConfig().options().copyDefaults(true);
             aliases = this.getConfig().getStringList("command-aliases");
@@ -37,12 +37,12 @@ public class PlugMan extends JavaPlugin {
         }
     }
 
-    private void registerCommands() {
+    private void initCommands() {
         this.getCommand("plugman").setExecutor(new PlugManCommands(this));
         this.getCommand("plugman").setAliases(aliases);
     }
 
-    private void startMetrics() {
+    private void initMetrics() {
         if (this.getConfig().getBoolean("use-metrics")) {
             try {
                 MetricsLite metrics = new MetricsLite(this);
@@ -57,10 +57,10 @@ public class PlugMan extends JavaPlugin {
     }
 
     public List<String> getSkipped() {
-        return this.skipPlugins;
+        return skipPlugins;
     }
     
     public Utilities getUtils() {
-        return this.utils;
+        return utils;
     }
 }
