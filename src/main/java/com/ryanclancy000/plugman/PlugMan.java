@@ -8,14 +8,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlugMan extends JavaPlugin {
 
-    private List<String> aliases;
     private List<String> skipPlugins;
-    //
     private final Utilities utils = new Utilities(this);
     
     @Override
     public void onDisable() {
-        aliases.clear();
         skipPlugins.clear();
     }
 
@@ -29,8 +26,8 @@ public class PlugMan extends JavaPlugin {
     private void initConfig() {
         try {
             this.getConfig().options().copyDefaults(true);
-            aliases = this.getConfig().getStringList("command-aliases");
             skipPlugins = this.getConfig().getStringList("skip-on-reload");
+            this.saveConfig();
         } catch (Exception e) {
             this.getLogger().log(Level.SEVERE, "Failed to load config - ignoring skip-plugins feature!{0}", e);
             skipPlugins = null;
@@ -39,7 +36,6 @@ public class PlugMan extends JavaPlugin {
 
     private void initCommands() {
         this.getCommand("plugman").setExecutor(new PlugManCommands(this));
-        this.getCommand("plugman").setAliases(aliases);
     }
 
     private void initMetrics() {
