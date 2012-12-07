@@ -297,7 +297,6 @@ public class Utilities {
 
         String pl = consolidateArgs(args);
         Plugin targetPlugin = getPlugin(pl);
-        File pluginFile = new File(new File("plugins"), pl + ".jar");
 
         if (targetPlugin != null) {
             if (targetPlugin.isEnabled()) {
@@ -308,27 +307,34 @@ public class Utilities {
                 return;
             }
         }
+        sender.sendMessage(loadPlugin(pl));
+    }
 
+    //Plugin Loading
+    private String loadPlugin(String pl) {
+
+        Plugin targetPlugin = getPlugin(pl);
+        File pluginFile = new File(new File("plugins"), pl + ".jar");
         if (pluginFile.isFile()) {
             try {
                 plugin.getServer().getPluginManager().loadPlugin(pluginFile);
                 targetPlugin = getPlugin(pl);
                 plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-                sender.sendMessage(pre + green + getPlugin(pl) + " loaded and enabled!");
+                return(pre + green + getPlugin(pl) + " loaded and enabled!");
             } catch (UnknownDependencyException e) {
-                sender.sendMessage(pre + red + "File exists, but is missing a dependency!");
+                return(pre + red + "File exists, but is missing a dependency!");
             } catch (InvalidPluginException e) {
-                sender.sendMessage(pre + red + "File exists, but isn't a plugin file!");
+                return(pre + red + "File exists, but isn't a plugin file!");
             } catch (InvalidDescriptionException e) {
-                sender.sendMessage(pre + red + "Plugin exists, but has an invalid description!");
+                return(pre + red + "Plugin exists, but has an invalid description!");
             }
         } else {
-            sender.sendMessage(pre + red + "File doesn't exist!");
+            return(pre + red + "File doesn't exist!");
         }
     }
 
     // Unload Command
-    public void unloadCommand(CommandSender sender, String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public void unloadCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -341,6 +347,13 @@ public class Utilities {
         if (targetPlugin == null) {
             sender.sendMessage(pre + red + pluginNotFound);
         } else {
+            sender.sendMessage(unloadPlugin(pl));
+        }
+    }
+
+    //Plugin unloading
+    private String unloadPlugin(String pl) {
+
             PluginManager pm = plugin.getServer().getPluginManager();
             SimplePluginManager spm = (SimplePluginManager) pm;
             SimpleCommandMap cmdMap = null;
@@ -351,6 +364,7 @@ public class Utilities {
             boolean reloadlisteners = true;
 
             if (spm != null) {
+                try {
                 Field pluginsField = spm.getClass().getDeclaredField("plugins");
                 pluginsField.setAccessible(true);
                 plugins = (List<Plugin>) pluginsField.get(spm);
@@ -374,12 +388,16 @@ public class Utilities {
                 Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
                 commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    return(pre + red + "Failed to unload plugin!");
+                }
             }
 
+            String tp = "";
             for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
                 if (p.getDescription().getName().equalsIgnoreCase(pl)) {
                     pm.disablePlugin(p);
-                    sender.sendMessage(pre + green + p.getName() + " has been unloaded and disabled!");
+                    tp += p.getName() + " ";
                     if (plugins != null && plugins.contains(p)) {
                         plugins.remove(p);
                     }
@@ -414,8 +432,9 @@ public class Utilities {
                     }
                 }
             }
-        }
+            return(pre + green + tp + "has been unloaded and disabled!");
     }
+
 
     // Restart Command
     public void restartCommand(CommandSender sender, String[] args) {
