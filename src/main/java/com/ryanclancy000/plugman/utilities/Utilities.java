@@ -95,8 +95,8 @@ public class Utilities {
         if (sender.hasPermission("plugman.unload")) {
             sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
         }
-        if (sender.hasPermission("plugman.reload")) {
-            sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin.");
+        if (sender.hasPermission("plugman.restart")) {
+            sender.sendMessage(green + "/plugman restart [plugin|all]" + white + " - " + gray + "Restart a plugin.");
         }
         if (sender.hasPermission("plugman.enable")) {
             sender.sendMessage(green + "/plugman enable [plugin|all]" + white + " - " + gray + "Enable a plugin.");
@@ -116,7 +116,7 @@ public class Utilities {
             String pluginName = "";
             StringBuilder list = new StringBuilder();
             List<String> pluginList = new ArrayList<String>();
-            
+
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
                 pluginName += (pl.isEnabled() ? green : red) + pl.getDescription().getName();
                 pluginList.add(pluginName);
@@ -417,8 +417,8 @@ public class Utilities {
         }
     }
 
-    // Reload Command
-    public void reloadCommand(CommandSender sender, String[] args) {
+    // Restart Command
+    public void restartCommand(CommandSender sender, String[] args) {
 
         if (args.length == 1) {
             sender.sendMessage(pre + red + specifyPlugin);
@@ -434,7 +434,7 @@ public class Utilities {
                     plugin.getServer().getPluginManager().enablePlugin(pl);
                 }
             }
-            sender.sendMessage(pre + green + "All plugins reloaded!");
+            sender.sendMessage(pre + green + "All plugins restarted!");
             return;
         }
 
@@ -448,7 +448,7 @@ public class Utilities {
         Plugin targetPlugin = getPlugin(pl);
         plugin.getServer().getPluginManager().disablePlugin(targetPlugin);
         plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-        sender.sendMessage(pre + green + targetPlugin.getName() + " Reloaded!");
+        sender.sendMessage(pre + green + targetPlugin.getName() + " Restarted!");
 
     }
 
