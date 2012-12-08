@@ -447,7 +447,7 @@ public class Utilities {
         if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
                 if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
-                    return;
+                    continue;
                 } else {
                     plugin.getServer().getPluginManager().disablePlugin(pl);
                     plugin.getServer().getPluginManager().enablePlugin(pl);
