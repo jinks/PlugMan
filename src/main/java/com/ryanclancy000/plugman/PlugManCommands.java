@@ -79,6 +79,12 @@ public class PlugManCommands implements CommandExecutor {
             } else {
                 plugin.getUtils().noPerms(sender);
             }
+        } else if ("reload".equalsIgnoreCase(args[0])) {
+            if (sender.hasPermission("plugman.reload")) {
+                plugin.getUtils().reloadCommand(sender, args);
+            } else {
+                plugin.getUtils().noPerms(sender);
+            }
         } else if ("enable".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.enable")) {
                 plugin.getUtils().enableCommand(sender, args);

@@ -20,6 +20,7 @@ import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
@@ -94,6 +95,9 @@ public class Utilities {
         }
         if (sender.hasPermission("plugman.unload")) {
             sender.sendMessage(green + "/plugman unload [plugin]" + white + " - " + gray + "Unload a plugin.");
+        }
+        if (sender.hasPermission("plugman.reload")) {
+            sender.sendMessage(green + "/plugman reload [plugin|all]" + white + " - " + gray + "Reload a plugin.");
         }
         if (sender.hasPermission("plugman.restart")) {
             sender.sendMessage(green + "/plugman restart [plugin|all]" + white + " - " + gray + "Restart a plugin.");
@@ -313,23 +317,41 @@ public class Utilities {
     //Plugin Loading
     private String loadPlugin(String pl) {
 
-        Plugin targetPlugin = getPlugin(pl);
-        File pluginFile = new File(new File("plugins"), pl + ".jar");
-        if (pluginFile.isFile()) {
-            try {
-                plugin.getServer().getPluginManager().loadPlugin(pluginFile);
-                targetPlugin = getPlugin(pl);
-                plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
-                return(pre + green + getPlugin(pl) + " loaded and enabled!");
-            } catch (UnknownDependencyException e) {
-                return(pre + red + "File exists, but is missing a dependency!");
-            } catch (InvalidPluginException e) {
-                return(pre + red + "File exists, but isn't a plugin file!");
-            } catch (InvalidDescriptionException e) {
-                return(pre + red + "Plugin exists, but has an invalid description!");
+        Plugin targetPlugin = null;
+        String msg = "";
+        File pluginDir = new File("plugins");
+        if (!pluginDir.isDirectory()) {return(pre + red + "Plugin directory not found!");}
+        File pluginFile = new File(pluginDir, pl + ".jar");
+        plugin.getLogger().info("Want: " + pluginFile);
+        if (!pluginFile.isFile()) {
+            for (File f : pluginDir.listFiles()) {
+                try {
+                    if (f.getName().endsWith(".jar")) {
+                        PluginDescriptionFile pdf = plugin.getPluginLoader().getPluginDescription(f);
+                        plugin.getLogger().info("Searching for " + pl + ": " + f + " -> " + pdf.getName());
+                        if (pdf.getName().equalsIgnoreCase(pl)) {
+                            pluginFile = f;
+                            msg = "(via search) ";
+                            break;
+                        }
+                    }
+                } catch (InvalidDescriptionException e) {
+                    return(pre + red + "Couldn't find file and failed to search descriptions!");
+                }
             }
-        } else {
-            return(pre + red + "File doesn't exist!");
+        }
+        try {
+            plugin.getServer().getPluginManager().loadPlugin(pluginFile);
+            targetPlugin = getPlugin(pl);
+            plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
+            return(pre + green + getPlugin(pl) + " loaded " + msg + "and enabled!");
+        } catch (UnknownDependencyException e) {
+            return(pre + red + "File exists, but is missing a dependency!");
+        } catch (InvalidPluginException e) {
+            plugin.getLogger().info("Tried to load invalid Plugin." + e);
+            return(pre + red + "File exists, but isn't a plugin file!");
+        } catch (InvalidDescriptionException e) {
+            return(pre + red + "Plugin exists, but has an invalid description!");
         }
     }
 
@@ -433,6 +455,41 @@ public class Utilities {
                 }
             }
             return(pre + green + tp + "has been unloaded and disabled!");
+    }
+
+
+    // Reload Command
+    public void reloadCommand(CommandSender sender, String[] args) {
+
+        if (args.length == 1) {
+            sender.sendMessage(pre + red + specifyPlugin);
+            return;
+        }
+
+        if ("all".equalsIgnoreCase(args[1]) || "*".equalsIgnoreCase(args[1])) {
+            for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
+                if (plugin.getSkipped().contains(pl.getName()) || plugin.getSkipped().isEmpty()) {
+                    continue;
+                } else {
+                    String pn = pl.getName();
+                    sender.sendMessage(unloadPlugin(pn));
+                    sender.sendMessage(loadPlugin(pn));
+                }
+            }
+            sender.sendMessage(pre + green + "All plugins reloaded!");
+            return;
+        }
+
+        String pl = consolidateArgs(args);
+
+        if (getPlugin(pl) == null) {
+            sender.sendMessage(pre + red + pluginNotFound);
+            return;
+        }
+
+        sender.sendMessage(unloadPlugin(pl));
+        sender.sendMessage(loadPlugin(pl));
+
     }
 
 
