@@ -69,7 +69,7 @@ public class PlugManCommands implements CommandExecutor {
             }
         } else if ("unload".equalsIgnoreCase(args[0])) {
             if (sender.hasPermission("plugman.unload")) {
-                    plugin.getUtils().unloadCommand(sender, args);
+                plugin.getUtils().unloadCommand(sender, args);
             } else {
                 plugin.getUtils().noPerms(sender);
             }

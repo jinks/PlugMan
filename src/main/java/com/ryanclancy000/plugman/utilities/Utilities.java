@@ -376,17 +376,17 @@ public class Utilities {
     //Plugin unloading
     private String unloadPlugin(String pl) {
 
-            PluginManager pm = plugin.getServer().getPluginManager();
-            SimplePluginManager spm = (SimplePluginManager) pm;
-            SimpleCommandMap cmdMap = null;
-            List<Plugin> plugins = null;
-            Map<String, Plugin> names = null;
-            Map<String, Command> commands = null;
-            Map<Event, SortedSet<RegisteredListener>> listeners = null;
-            boolean reloadlisteners = true;
+        PluginManager pm = plugin.getServer().getPluginManager();
+        SimplePluginManager spm = (SimplePluginManager) pm;
+        SimpleCommandMap cmdMap = null;
+        List<Plugin> plugins = null;
+        Map<String, Plugin> names = null;
+        Map<String, Command> commands = null;
+        Map<Event, SortedSet<RegisteredListener>> listeners = null;
+        boolean reloadlisteners = true;
 
-            if (spm != null) {
-                try {
+        if (spm != null) {
+            try {
                 Field pluginsField = spm.getClass().getDeclaredField("plugins");
                 pluginsField.setAccessible(true);
                 plugins = (List<Plugin>) pluginsField.get(spm);
@@ -410,51 +410,51 @@ public class Utilities {
                 Field knownCommandsField = cmdMap.getClass().getDeclaredField("knownCommands");
                 knownCommandsField.setAccessible(true);
                 commands = (Map<String, Command>) knownCommandsField.get(cmdMap);
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    return(pre + red + "Failed to unload plugin!");
-                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                return(pre + red + "Failed to unload plugin!");
             }
+        }
 
-            String tp = "";
-            for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
-                if (p.getDescription().getName().equalsIgnoreCase(pl)) {
-                    pm.disablePlugin(p);
-                    tp += p.getName() + " ";
-                    if (plugins != null && plugins.contains(p)) {
-                        plugins.remove(p);
-                    }
+        String tp = "";
+        for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
+            if (p.getDescription().getName().equalsIgnoreCase(pl)) {
+                pm.disablePlugin(p);
+                tp += p.getName() + " ";
+                if (plugins != null && plugins.contains(p)) {
+                    plugins.remove(p);
+                }
 
-                    if (names != null && names.containsKey(pl)) {
-                        names.remove(pl);
-                    }
+                if (names != null && names.containsKey(pl)) {
+                    names.remove(pl);
+                }
 
-                    if (listeners != null && reloadlisteners) {
-                        for (SortedSet<RegisteredListener> set : listeners.values()) {
-                            for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
-                                RegisteredListener value = it.next();
+                if (listeners != null && reloadlisteners) {
+                    for (SortedSet<RegisteredListener> set : listeners.values()) {
+                        for (Iterator<RegisteredListener> it = set.iterator(); it.hasNext();) {
+                            RegisteredListener value = it.next();
 
-                                if (value.getPlugin() == p) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-
-                    if (cmdMap != null) {
-                        for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
-                            Map.Entry<String, Command> entry = it.next();
-                            if (entry.getValue() instanceof PluginCommand) {
-                                PluginCommand c = (PluginCommand) entry.getValue();
-                                if (c.getPlugin() == p) {
-                                    c.unregister(cmdMap);
-                                    it.remove();
-                                }
+                            if (value.getPlugin() == p) {
+                                it.remove();
                             }
                         }
                     }
                 }
+
+                if (cmdMap != null) {
+                    for (Iterator<Map.Entry<String, Command>> it = commands.entrySet().iterator(); it.hasNext();) {
+                        Map.Entry<String, Command> entry = it.next();
+                        if (entry.getValue() instanceof PluginCommand) {
+                            PluginCommand c = (PluginCommand) entry.getValue();
+                            if (c.getPlugin() == p) {
+                                c.unregister(cmdMap);
+                                it.remove();
+                            }
+                        }
+                    }
+                }
             }
-            return(pre + green + tp + "has been unloaded and disabled!");
+        }
+        return(pre + green + tp + "has been unloaded and disabled!");
     }
 
 
