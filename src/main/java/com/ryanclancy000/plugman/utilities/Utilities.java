@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.SortedSet;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -322,13 +323,13 @@ public class Utilities {
         File pluginDir = new File("plugins");
         if (!pluginDir.isDirectory()) {return(pre + red + "Plugin directory not found!");}
         File pluginFile = new File(pluginDir, pl + ".jar");
-        plugin.getLogger().info("Want: " + pluginFile);
+        //plugin.getLogger().info("Want: " + pluginFile);
         if (!pluginFile.isFile()) {
             for (File f : pluginDir.listFiles()) {
                 try {
                     if (f.getName().endsWith(".jar")) {
                         PluginDescriptionFile pdf = plugin.getPluginLoader().getPluginDescription(f);
-                        plugin.getLogger().info("Searching for " + pl + ": " + f + " -> " + pdf.getName());
+                        //plugin.getLogger().info("Searching for " + pl + ": " + f + " -> " + pdf.getName());
                         if (pdf.getName().equalsIgnoreCase(pl)) {
                             pluginFile = f;
                             msg = "(via search) ";
@@ -348,8 +349,8 @@ public class Utilities {
         } catch (UnknownDependencyException e) {
             return(pre + red + "File exists, but is missing a dependency!");
         } catch (InvalidPluginException e) {
-            plugin.getLogger().info("Tried to load invalid Plugin." + e);
-            return(pre + red + "File exists, but isn't a plugin file!");
+            plugin.getLogger().log(Level.SEVERE, "Tried to load invalid Plugin.\n", e);
+            return(pre + red + "File exists, but isn't a loadable plugin file!");
         } catch (InvalidDescriptionException e) {
             return(pre + red + "Plugin exists, but has an invalid description!");
         }
