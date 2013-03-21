@@ -1,6 +1,6 @@
 name: PlugMan
 main: com.ryanclancy000.plugman.PlugMan
-version: 1.8.1
+version: 1.8.2
 description: Plugin Manager for Bukkit
 author: ryanclancy000
 authors:
@@ -8,6 +8,7 @@ authors:
   - jinks
 commands:
   plugman:
+    aliases: pm
     description: Manage Plugins Status.
     usage: /plugman [help|list|vlist]
            /plugman test [PermissionNode] [Player]
