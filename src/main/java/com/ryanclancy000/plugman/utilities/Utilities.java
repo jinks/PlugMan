@@ -123,10 +123,9 @@ public class Utilities {
             List<String> pluginList = new ArrayList<String>();
 
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                pluginName += (pl.isEnabled() ? green : red) + pl.getDescription().getName();
+                pluginName = (pl.isEnabled() ? green : red) + pl.getDescription().getName();
                 pluginList.add(pluginName);
             }
-            list.append(pluginName);
             Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
             for (String name : pluginList) {
                 if (list.length() > 0) {
@@ -150,10 +149,9 @@ public class Utilities {
             List<String> pluginList = new ArrayList<String>();
 
             for (Plugin pl : plugin.getServer().getPluginManager().getPlugins()) {
-                pluginName += (pl.isEnabled() ? green : red) + pl.getDescription().getFullName();
+                pluginName = (pl.isEnabled() ? green : red) + pl.getDescription().getFullName();
                 pluginList.add(pluginName);
             }
-            list.append(pluginName);
             Collections.sort(pluginList, String.CASE_INSENSITIVE_ORDER);
             for (String name : pluginList) {
                 if (list.length() > 0) {
