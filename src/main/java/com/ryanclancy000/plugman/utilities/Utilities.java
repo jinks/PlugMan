@@ -342,6 +342,7 @@ public class Utilities {
         try {
             plugin.getServer().getPluginManager().loadPlugin(pluginFile);
             targetPlugin = getPlugin(pl);
+            targetPlugin.onLoad();
             plugin.getServer().getPluginManager().enablePlugin(targetPlugin);
             return(pre + green + getPlugin(pl) + " loaded " + msg + "and enabled!");
         } catch (UnknownDependencyException e) {
